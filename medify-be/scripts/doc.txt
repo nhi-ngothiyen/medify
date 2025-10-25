@@ -1,0 +1,31 @@
+source .venv/bin/activate
+export PYTHONPATH=.
+python scripts/create_user.py
+
+-------------------------------------
+source .venv/bin/activate
+pip uninstall -y bcrypt
+pip install "bcrypt==4.0.1"
+pip install -U "passlib==1.7.4"
+
+-------------------------------------
+python - <<'PY'
+import sys; sys.path.insert(0,'.')
+from sqlalchemy import text
+from app.db import SessionLocal
+from app import models
+from app.security import hash_password
+
+db = SessionLocal()
+try:
+    u = models.User(email="debug@local.dev", full_name="Debug User",
+                    password_hash=hash_password("Admin@123!"),
+                    role=models.Role.admin, gender=None)
+    db.add(u)
+    db.commit()
+    db.refresh(u)
+    print("✅ inserted id =", u.id)
+finally:
+    db.close()
+PY
+-------------------------------------
