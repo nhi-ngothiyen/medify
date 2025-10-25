@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+
+# Virtual env
+.venv/
+venv/
+
+# OS / IDE
+.DS_Store
+.idea/
+.vscode/
+
+# Env & secrets
+.env
+.env.*
+*.key
+*.pem
+
+# Alembic cache
+alembic/versions/__pycache__/
+
+# Node (nếu có admin web hoặc flutter web build)
+node_modules/
+build/
