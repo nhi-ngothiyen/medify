@@ -10,7 +10,7 @@ Medify là một ứng dụng đặt lịch khám bệnh toàn diện, giúp **b
 - pip, venv (hoặc pyenv)
 - Git
 
-### 🚀 Cài đặt & Chạy backend
+### 🚀 Cài đặt
 ```bash
 # Clone repo
 git clone git@github.com:nhi-ngothiyen/medify.git
@@ -24,25 +24,29 @@ source .venv/bin/activate   # macOS / Linux
 
 # Cài dependencies
 pip install -r requirements.txt
+```
 
-⚙️ Cấu hình .env
-
-Tạo file .env trong thư mục medify-be/ (dựa theo .env.example):
-
+### ⚙️ Cấu hình .env
+```bash
+# Tạo file .env trong thư mục medify-be/ (dựa theo .env.example):
 DATABASE_URL=postgresql+psycopg2://<username>@localhost:5432/medify
 JWT_SECRET=supersecretkey
 JWT_ALG=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=30
+``` 
 
-#Khởi tạo database
+### Khởi tạo database
+```bash
 # Tạo database nếu chưa có
 createdb medify
 
 # Tạo bảng từ model
 alembic revision --autogenerate -m "init"
 alembic upgrade head
+```
 
-# ▶️ Chạy server
+### ▶️ Chạy server
+```bash
 uvicorn app.main:app --reload --port 8000
 
 # API docs sẽ khả dụng tại:
@@ -61,7 +65,7 @@ cd ../medify_app
 flutter pub get
 flutter run
 
-#Ứng dụng kết nối với API backend tại http://127.0.0.1:8000
+# Ứng dụng kết nối với API backend tại http://127.0.0.1:8000
 ```
 
 ## 💻 3. Trang quản trị 
@@ -75,5 +79,5 @@ cd ../medify-admin
 npm install
 npm run dev
 
-#Dashboard mặc định chạy tại http://localhost:5173
+# Dashboard mặc định chạy tại http://localhost:5173
 ```
