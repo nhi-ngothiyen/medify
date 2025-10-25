@@ -6,6 +6,12 @@ from app import schemas, models
 from app.db import SessionLocal
 from app.security import hash_password, verify_password, create_access_token
 
+from jose import jwt
+from app.deps import get_db, oauth2
+from app.token_blocklist import block as block_token
+from app.config import settings
+
+router = APIRouter(prefix="/auth", tags=["auth"])
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -70,3 +76,19 @@ def login(payload: schemas.LoginIn, db: Session = Depends(get_db)):
     token = create_access_token(str(u.id), u.role.value)
 
     return {"access_token": token, "token_type": "bearer"}
+
+@router.post("/logout")
+def logout(token: str = Depends(oauth2)):
+    """
+    Đưa access token hiện tại vào blocklist đến hết hạn.
+    Client vẫn cần xoá token ở local để ngắt phiên ngay.
+    """
+    try:
+        payload = jwt.decode(token, settings.JWT_SECRET, algorithms=[settings.JWT_ALG])
+        exp = int(payload["exp"])  # exp dạng epoch (s)
+    except Exception:
+        # Token không hợp lệ thì coi như đã "logout" ở client; trả về 200 cho idempotency.
+        return {"ok": True, "revoked": False}
+
+    block_token(token, exp_epoch=exp)
+    return {"ok": True, "revoked": True, "exp": exp}
