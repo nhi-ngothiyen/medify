@@ -11,7 +11,7 @@ Medify là một ứng dụng đặt lịch khám bệnh toàn diện, giúp **b
 - Git
 
 ### 🚀 Cài đặt & Chạy backend
-
+```bash
 # Clone repo
 git clone git@github.com:nhi-ngothiyen/medify.git
 cd medify/medify-be
@@ -25,15 +25,18 @@ source .venv/bin/activate   # macOS / Linux
 # Cài dependencies
 pip install -r requirements.txt
 
-### ⚙️ Cấu hình .env
+⚙️ Cấu hình .env
 
-# Tạo file .env trong thư mục medify-be/ (dựa theo .env.example):
+Tạo file .env trong thư mục medify-be/ (dựa theo .env.example):
+
 DATABASE_URL=postgresql+psycopg2://<username>@localhost:5432/medify
 JWT_SECRET=supersecretkey
 JWT_ALG=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=30
 
-# Khởi tạo database
+⚠️ Thay <username> bằng user PostgreSQL thật của bạn.
+
+Khởi tạo database
 # Tạo database nếu chưa có
 createdb medify
 
@@ -41,33 +44,37 @@ createdb medify
 alembic revision --autogenerate -m "init"
 alembic upgrade head
 
-### ▶️ Chạy server
+▶️ Chạy server
 uvicorn app.main:app --reload --port 8000
 
 API docs sẽ khả dụng tại:
 Swagger UI: http://127.0.0.1:8000/docs
 ReDoc: http://127.0.0.1:8000/redoc
+```
 
-## ⚙️ 2. Ứng dụng Flutter (medify_app)
+## 📱 2. Ứng dụng Flutter
 ### 🔧 Yêu cầu
 Flutter SDK ≥ 3.10
 Dart SDK ≥ 3.0
 
 ### 🚀 Chạy ứng dụng
+```bash
 cd ../medify_app
 flutter pub get
 flutter run
-
 Ứng dụng kết nối với API backend tại http://127.0.0.1:8000
+```
 
-## 💻 3. Admin Dashboard
+## 💻 3. Trang quản trị 
 ### 🔧 Yêu cầu
 Node.js ≥ 18
 npm hoặc yarn
 
 ### 🚀 Cài đặt & chạy
+```bash
 cd ../medify-admin
 npm install
 npm run dev
 
 Dashboard mặc định chạy tại http://localhost:5173
+```
