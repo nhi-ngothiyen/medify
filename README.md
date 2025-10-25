@@ -34,9 +34,7 @@ JWT_SECRET=supersecretkey
 JWT_ALG=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=30
 
-⚠️ Thay <username> bằng user PostgreSQL thật của bạn.
-
-Khởi tạo database
+#Khởi tạo database
 # Tạo database nếu chưa có
 createdb medify
 
@@ -44,10 +42,10 @@ createdb medify
 alembic revision --autogenerate -m "init"
 alembic upgrade head
 
-▶️ Chạy server
+# ▶️ Chạy server
 uvicorn app.main:app --reload --port 8000
 
-API docs sẽ khả dụng tại:
+# API docs sẽ khả dụng tại:
 Swagger UI: http://127.0.0.1:8000/docs
 ReDoc: http://127.0.0.1:8000/redoc
 ```
@@ -62,7 +60,8 @@ Dart SDK ≥ 3.0
 cd ../medify_app
 flutter pub get
 flutter run
-Ứng dụng kết nối với API backend tại http://127.0.0.1:8000
+
+#Ứng dụng kết nối với API backend tại http://127.0.0.1:8000
 ```
 
 ## 💻 3. Trang quản trị 
@@ -76,5 +75,5 @@ cd ../medify-admin
 npm install
 npm run dev
 
-Dashboard mặc định chạy tại http://localhost:5173
+#Dashboard mặc định chạy tại http://localhost:5173
 ```
