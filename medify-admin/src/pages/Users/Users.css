@@ -1,0 +1,176 @@
+/* Users Page Styles - Medify Admin */
+
+.users-container {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.users-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.users-header h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--primary-blue);
+  margin: 0;
+}
+
+.logout-button {
+  padding: 10px 20px;
+  background: var(--error-red);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.logout-button:hover {
+  background: #dc2626;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 68, 68, 0.3);
+}
+
+.users-table {
+  width: 100%;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.users-table thead {
+  background: var(--primary-blue);
+  color: white;
+}
+
+.users-table th,
+.users-table td {
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.users-table th {
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.users-table td {
+  font-size: 14px;
+  color: #374151;
+}
+
+.users-table tbody tr:hover {
+  background: #f9fafb;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status-badge.active {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.status-badge.inactive {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.action-button {
+  padding: 6px 12px;
+  background: var(--primary-blue);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.action-button:hover {
+  background: #1a50e6;
+  transform: translateY(-1px);
+}
+
+.action-button.reset-button {
+  margin-left: 8px;
+  background: var(--warning-yellow);
+  color: #78350f;
+}
+
+.action-button.reset-button:hover {
+  background: #d97706;
+  color: white;
+}
+
+.users-loading,
+.users-error {
+  padding: 40px 24px;
+  text-align: center;
+}
+
+.error-text {
+  color: var(--error-red);
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+.retry-button {
+  padding: 10px 20px;
+  background: var(--primary-blue);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.retry-button:hover {
+  background: #1a50e6;
+  transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .users-container {
+    padding: 16px;
+  }
+
+  .users-table {
+    font-size: 12px;
+  }
+
+  .users-table th,
+  .users-table td {
+    padding: 10px 8px;
+  }
+
+  .action-button {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+
+  .action-button.reset-button {
+    margin-left: 4px;
+  }
+}
+

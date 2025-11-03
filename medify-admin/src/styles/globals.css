@@ -1,0 +1,157 @@
+/**
+ * Global Styles
+ * Base styles applied throughout the application
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600&display=swap');
+
+:root {
+  font-family: 'League Spartan', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  /* Medify Color Palette */
+  --primary-blue: #2260ff;
+  --primary-light: #eaefff;
+  --gray-black: #000000;
+  --white: #ffffff;
+  --error-red: #ff4444;
+  --success-green: #10b981;
+  --warning-yellow: #f59e0b;
+  
+  /* Gray Scale */
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-800: #1f2937;
+  --gray-900: #111827;
+
+  color-scheme: light;
+  color: var(--gray-black);
+  background-color: var(--white);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+a {
+  font-weight: 500;
+  color: var(--primary-blue);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.75rem;
+}
+
+input, textarea, select {
+  font-family: 'League Spartan', sans-serif;
+  font-size: 20px;
+  font-weight: 300;
+  padding: 12px 15px;
+  border: none;
+  border-radius: 13px;
+  background-color: var(--primary-light);
+  color: var(--gray-black);
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+  box-shadow: 0 0 0 2px var(--primary-blue);
+}
+
+input::placeholder, textarea::placeholder {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+button {
+  border-radius: 30px;
+  border: none;
+  padding: 12px 24px;
+  font-size: 24px;
+  font-weight: 500;
+  font-family: 'League Spartan', sans-serif;
+  background-color: var(--primary-blue);
+  color: var(--white);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: capitalize;
+}
+
+button:hover:not(:disabled) {
+  background-color: #1a50e6;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(34, 96, 255, 0.3);
+}
+
+button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  transform: none;
+  opacity: 0.6;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table th, table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+table th {
+  background-color: var(--gray-50);
+  font-weight: 600;
+  color: var(--gray-700);
+}
+
+table tbody tr:hover {
+  background-color: var(--gray-50);
+}
+
