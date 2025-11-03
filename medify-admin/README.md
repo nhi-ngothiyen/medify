@@ -1,73 +1,116 @@
-# React + TypeScript + Vite
+# Medify Admin 🏥
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Admin dashboard cho hệ thống quản lý y tế Medify.
 
-Currently, two official plugins are available:
+## 🚀 Công nghệ
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React 19** - UI framework
+- **TypeScript** - Type safety
+- **Vite** - Build tool & dev server
+- **React Router** - Routing
+- **CSS3** - Styling với CSS variables
 
-## React Compiler
+## 📦 Cài đặt
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+# Install dependencies
+npm install
 
-## Expanding the ESLint configuration
+# Start development server
+npm run dev
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+# Build for production
+npm run build
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Preview production build
+npm run preview
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🏗️ Cấu trúc dự án
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+src/
+├── assets/         # Images, fonts, static files
+├── components/     # Reusable UI components
+├── constants/      # App constants & config
+├── hooks/          # Custom React hooks
+├── pages/          # Page components (routes)
+├── services/       # API services & integrations
+├── styles/         # Global styles & variables
+├── types/          # TypeScript type definitions
+├── utils/          # Helper functions
+└── App.tsx         # Root component
+```
+
+📖 Xem chi tiết tại [STRUCTURE.md](./STRUCTURE.md)
+
+## 🔑 Môi trường
+
+Tạo file `.env` với các biến sau:
+
+```env
+VITE_API=http://localhost:8000
+```
+
+## 🎨 Features
+
+- ✅ Authentication với JWT
+- ✅ User management
+- ✅ Protected routes
+- ✅ Modern UI design
+- ✅ TypeScript type safety
+- ✅ Responsive design
+- ✅ Clean architecture
+
+## 📝 Scripts
+
+```bash
+npm run dev          # Start dev server
+npm run build        # Build for production
+npm run preview      # Preview production build
+npm run lint         # Run ESLint
+```
+
+## 🔐 Authentication
+
+Login credentials mặc định:
+- Email: `admin@medify.vn`
+- Password: `Admin@123`
+
+## 📱 Pages
+
+- `/login` - Login page
+- `/` - Users management (protected)
+
+## 🛠️ Development
+
+### Adding new page
+
+1. Tạo component trong `src/pages/`
+2. Thêm route trong `src/App.tsx`
+3. Thêm constants vào `src/constants/index.ts`
+
+### Adding new API endpoint
+
+1. Thêm service function vào `src/services/apiService.ts`
+2. Import và sử dụng trong component
+
+### Adding new type
+
+1. Thêm interface/type vào `src/types/index.ts`
+2. Export và sử dụng trong toàn bộ app
+
+## 📚 Resources
+
+- [React Documentation](https://react.dev/)
+- [TypeScript Handbook](https://www.typescriptlang.org/docs/)
+- [Vite Guide](https://vitejs.dev/guide/)
+- [React Router](https://reactrouter.com/)
+
+## 👥 Team
+
+Developed by Medify Team
+
+## 📄 License
+
+Private - All rights reserved
