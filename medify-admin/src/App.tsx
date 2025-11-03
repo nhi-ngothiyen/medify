@@ -1,22 +1,23 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Users from './pages/Users';
 import Login from './pages/Login';
+import PrivateRoute from './components/PrivateRoute';
+import { ROUTES } from './constants';
 
-
-function Guard({children}:{children: JSX.Element}){
-const token = localStorage.getItem('token');
-if(!token) return <Login/>;
-return children;
-}
-
-
-export default function App(){
-return (
+export default function App() {
+  return (
     <BrowserRouter>
-    <Routes>
-    <Route path="/" element={<Guard><Users/></Guard>} />
-    <Route path="/login" element={<Login/>} />
-    </Routes>
+      <Routes>
+        <Route 
+          path={ROUTES.HOME} 
+          element={
+            <PrivateRoute>
+              <Users />
+            </PrivateRoute>
+          } 
+        />
+        <Route path={ROUTES.LOGIN} element={<Login />} />
+      </Routes>
     </BrowserRouter>
-);
+  );
 }
