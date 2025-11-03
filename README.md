@@ -40,7 +40,8 @@ ACCESS_TOKEN_EXPIRE_MINUTES=30
 # Tạo database nếu chưa có
 createdb medify
 
-# Tạo bảng từ model
+# Tạo bảng từ modelalembic upgrade head
+
 alembic revision --autogenerate -m "init"
 alembic upgrade head
 ```

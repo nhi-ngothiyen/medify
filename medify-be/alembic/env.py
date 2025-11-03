@@ -20,7 +20,7 @@ from app import models  # noqa: F401,E402  (để Alembic "thấy" tất cả mo
 
 # Alembic Config
 config = context.config
-# Tiêm DATABASE_URL đọc từ .env
+# DATABASE_URL đọc từ .env
 config.set_main_option("sqlalchemy.url", settings.DATABASE_URL)
 
 # Logging

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/api_client.dart';
+import '../widgets/main_scaffold.dart';
 
 
 class AppointmentsScreen extends StatefulWidget {
@@ -14,8 +15,8 @@ class _S extends State<AppointmentsScreen> {
   Future<void> _load() async { items = await api.myAppointments(); setState((){}); }
   @override void initState(){ super.initState(); _load(); }
   @override Widget build(BuildContext ctx){
-    return Scaffold(
-      appBar: AppBar(title: const Text('Cuộc hẹn của tôi')),
+    return MainScaffold(
+      title: 'Cuộc hẹn của tôi',
       body: ListView.builder(
           itemCount: items.length,
           itemBuilder: (_, i){ final a = items[i];

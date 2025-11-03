@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 
 class ApiClient {
@@ -19,6 +20,30 @@ class ApiClient {
   Future<void> login(String email, String password) async {
     final r = await _dio.post('/auth/login', data: {'email': email, 'password': password});
     await storage.write(key: 'token', value: r.data['access_token']);
+  }
+
+  /// Read stored token and decode to return basic user info (sub, role).
+  Future<Map<String, dynamic>?> getCurrentUser() async {
+    final token = await storage.read(key: 'token');
+    if (token == null) return null;
+    try {
+      final decoded = JwtDecoder.decode(token);
+      return {
+        'sub': decoded['sub'],
+        'role': decoded['role'],
+      };
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<void> logout() async {
+    try {
+      await _dio.post('/auth/logout');
+    } catch (e) {
+      // ignore network errors; still clear local token
+    }
+    await storage.delete(key: 'token');
   }
 
 

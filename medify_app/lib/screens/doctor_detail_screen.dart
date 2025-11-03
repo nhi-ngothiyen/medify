@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/api_client.dart';
+import '../widgets/main_scaffold.dart';
 
 
 class DoctorDetailScreen extends StatefulWidget {
@@ -26,8 +27,8 @@ class _S extends State<DoctorDetailScreen> {
 
 
     final d = detail;
-    return Scaffold(
-      appBar: AppBar(title: const Text('Hồ sơ bác sĩ')),
+    return MainScaffold(
+      title: 'Hồ sơ bác sĩ',
       body: d == null
           ? const Center(child: CircularProgressIndicator())
           : Padding(
