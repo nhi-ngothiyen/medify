@@ -1,103 +1,78 @@
 /* Users Page Styles - Medify Admin */
 
-.users-container {
-  padding: 24px;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
 .users-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
 }
 
 .users-header h2 {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 700;
   color: var(--primary-blue);
   margin: 0;
 }
 
-.logout-button {
-  padding: 10px 20px;
-  background: var(--error-red);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.logout-button:hover {
-  background: #dc2626;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255, 68, 68, 0.3);
-}
-
 .users-table {
   width: 100%;
   background: white;
-  border-radius: 12px;
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
 }
 
 .users-table thead {
-  background: var(--primary-blue);
-  color: white;
+  background: #f8fafc;
+  color: #475569;
 }
 
 .users-table th,
 .users-table td {
-  padding: 14px 16px;
+  padding: 16px 20px;
   text-align: left;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid #eef1f6;
 }
 
 .users-table th {
   font-weight: 600;
-  font-size: 14px;
+  font-size: 13px;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
 }
 
 .users-table td {
   font-size: 14px;
-  color: #374151;
+  color: #1f2937;
 }
 
 .users-table tbody tr:hover {
-  background: #f9fafb;
+  background: #f1f5ff;
 }
 
 .status-badge {
   display: inline-block;
-  padding: 4px 12px;
-  border-radius: 12px;
+  padding: 6px 14px;
+  border-radius: 999px;
   font-size: 12px;
   font-weight: 600;
 }
 
 .status-badge.active {
   background: #d1fae5;
-  color: #065f46;
+  color: #047857;
 }
 
 .status-badge.inactive {
   background: #fee2e2;
-  color: #991b1b;
+  color: #b91c1c;
 }
 
 .action-button {
-  padding: 6px 12px;
+  padding: 8px 14px;
   background: var(--primary-blue);
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
@@ -151,26 +126,21 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .users-container {
-    padding: 16px;
-  }
-
   .users-table {
     font-size: 12px;
   }
 
   .users-table th,
   .users-table td {
-    padding: 10px 8px;
+    padding: 12px;
   }
 
   .action-button {
-    padding: 4px 8px;
-    font-size: 11px;
+    padding: 6px 10px;
+    font-size: 12px;
   }
 
   .action-button.reset-button {
     margin-left: 4px;
   }
 }
-

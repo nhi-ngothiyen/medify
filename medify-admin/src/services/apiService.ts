@@ -3,6 +3,8 @@
  * Centralized API calls with authentication
  */
 
+import { STORAGE_KEYS } from '../constants';
+
 const API_BASE_URL = import.meta.env.VITE_API;
 
 /**
@@ -12,7 +14,7 @@ const API_BASE_URL = import.meta.env.VITE_API;
  * @returns Promise with JSON response
  */
 export async function api(path: string, opts: RequestInit = {}) {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem(STORAGE_KEYS.AUTH_TOKEN);
   
   const res = await fetch(`${API_BASE_URL}${path}`, {
     ...opts,
@@ -43,12 +45,13 @@ export const authService = {
   },
   
   logout: () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem(STORAGE_KEYS.AUTH_TOKEN);
+    localStorage.removeItem(STORAGE_KEYS.USER_DATA);
     window.location.href = '/login';
   },
   
   isAuthenticated: () => {
-    return !!localStorage.getItem('token');
+    return !!localStorage.getItem(STORAGE_KEYS.AUTH_TOKEN);
   }
 };
 
@@ -58,6 +61,10 @@ export const authService = {
 export const userService = {
   getAll: async () => {
     return api('/admin/users');
+  },
+  
+  getCurrentUser: async () => {
+    return api('/auth/me');
   },
   
   toggleActive: async (id: number) => {
