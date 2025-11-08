@@ -7,11 +7,9 @@ from app.db import SessionLocal
 from app.security import hash_password, verify_password, create_access_token
 
 from jose import jwt
-from app.deps import get_db, oauth2
+from app.deps import get_db, oauth2, get_current_user
 from app.token_blocklist import block as block_token
 from app.config import settings
-
-router = APIRouter(prefix="/auth", tags=["auth"])
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -75,7 +73,18 @@ def login(payload: schemas.LoginIn, db: Session = Depends(get_db)):
     # Tạo token đăng nhập
     token = create_access_token(str(u.id), u.role.value)
 
-    return {"access_token": token, "token_type": "bearer"}
+    # Trả về thông tin user cùng với token (Pydantic tự động convert từ ORM)
+    return {"access_token": token, "token_type": "bearer", "user": u}
+
+
+# 🧩 API lấy thông tin user hiện tại
+@router.get("/me", response_model=schemas.UserOut)
+def get_me(user=Depends(get_current_user), db: Session = Depends(get_db)):
+    u = db.query(models.User).filter(models.User.id == user["sub"]).first()
+    if not u:
+        raise HTTPException(status_code=404, detail="User not found")
+    return u
+
 
 @router.post("/logout")
 def logout(token: str = Depends(oauth2)):

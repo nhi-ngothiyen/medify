@@ -11,6 +11,7 @@ from app.models import Gender, Role, AppointmentStatus
 class TokenOut(BaseModel):
     access_token: str
     token_type: str = "bearer"
+    user: Optional["UserOut"] = None
 
 
 class UserCreate(BaseModel):
@@ -48,6 +49,7 @@ class UserOut(BaseModel):
     full_name: str
     gender: Optional[Gender]
     role: Role
+    is_active: bool
 
 
 class LoginIn(BaseModel):
