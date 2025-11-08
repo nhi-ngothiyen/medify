@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Users from './pages/Users';
 import Login from './pages/Login';
 import PrivateRoute from './components/PrivateRoute';
-import Header from './components/Header';
 import { ROUTES, STORAGE_KEYS } from './constants';
 
 export default function App() {
@@ -11,7 +10,6 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      {token && <Header />}
       <Routes>
         <Route
           path={ROUTES.HOME}

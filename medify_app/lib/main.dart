@@ -8,6 +8,7 @@ import 'screens/doctor_home.dart';
 import 'screens/favorites_page.dart';
 import 'screens/chat_page.dart';
 import 'screens/profile_page.dart';
+import 'router/app_router.dart';
 
 
 void main() {
@@ -23,19 +24,7 @@ class MyApp extends StatelessWidget {
       title: 'Medify',
       theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.teal),
       initialRoute: '/',
-      routes: {
-        '/': (_) => const LoginScreen(),
-        // patient-facing home
-        '/patient_home': (_) => const PatientHome(),
-        // doctor-facing home
-        '/doctor_home': (_) => const DoctorHome(),
-        '/doctors': (_) => const DoctorListScreen(),
-        '/doctor': (_) => const DoctorDetailScreen(),
-        '/appointments': (_) => const AppointmentsScreen(),
-        '/favorites': (_) => const FavoritesPage(),
-        '/chat': (_) => const ChatPage(),
-        '/profile': (_) => const ProfilePage(),
-      },
+      routes: AppRouter.routes,
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../services/api_client.dart';
 import '../widgets/top_calendar.dart';
 import '../widgets/doctor_card.dart';
+import '../components/NavBar.dart';
 
 class PatientHome extends StatefulWidget {
   const PatientHome({super.key});
@@ -79,19 +80,7 @@ class _PatientHomeState extends State<PatientHome> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: _currentIndex,
-        onTap: _onNavTap,
-        selectedItemColor: const Color(0xFF1A73E8),
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.chat_bubble_outline), label: 'Chat'),
-          BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: 'Profile'),
-          BottomNavigationBarItem(icon: Icon(Icons.calendar_today), label: 'Appointments'),
-          BottomNavigationBarItem(icon: Icon(Icons.favorite_border), label: 'Favorite'),
-        ],
-      ),
+      bottomNavigationBar: NavBar(currentIndex: _currentIndex, onTap: _onNavTap),
     );
   }
 }
