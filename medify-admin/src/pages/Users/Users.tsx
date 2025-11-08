@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { authService, userService } from '../../services/apiService';
+import { userService } from '../../services/apiService';
 import { User } from '../../types';
+import Layout from '../../components/Layout';
 import './Users.css';
 
 export default function Users() {
@@ -45,29 +46,30 @@ export default function Users() {
     }
   };
 
-  const logout = () => {
-    authService.logout();
-  };
-
 
   if (loading) {
-    return <div className="users-loading">Đang tải...</div>;
+    return (
+      <Layout>
+        <div className="users-loading">Đang tải...</div>
+      </Layout>
+    );
   }
 
   if (error) {
     return (
-      <div className="users-error">
-        <div className="error-text">{error}</div>
-        <button onClick={load} className="retry-button">Thử lại</button>
-      </div>
+      <Layout>
+        <div className="users-error">
+          <div className="error-text">{error}</div>
+          <button onClick={load} className="retry-button">Thử lại</button>
+        </div>
+      </Layout>
     );
   }
 
   return (
-    <div className="users-container">
+    <Layout>
       <div className="users-header">
         <h2>Quản lý người dùng</h2>
-        <button onClick={logout} className="logout-button">Đăng xuất</button>
       </div>
       <table className="users-table">
         <thead>
@@ -104,7 +106,7 @@ export default function Users() {
           ))}
         </tbody>
       </table>
-    </div>
+    </Layout>
   );
 }
 
