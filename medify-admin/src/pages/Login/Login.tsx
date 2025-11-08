@@ -18,6 +18,12 @@ export default function Login() {
     try {
       const data = await authService.login(email, password);
       localStorage.setItem(STORAGE_KEYS.AUTH_TOKEN, data.access_token);
+      
+      // Save user data if available
+      if (data.user) {
+        localStorage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(data.user));
+      }
+      
       window.location.href = ROUTES.HOME;
     } catch (e: any) {
       setErr('Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.');
