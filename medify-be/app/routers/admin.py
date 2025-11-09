@@ -1,6 +1,6 @@
 from typing import List
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 
 from app import models, schemas
 from app.deps import get_db, require_role
@@ -65,7 +65,17 @@ def list_doctors(db: Session = Depends(get_db), _: dict = Depends(require_role(R
 # 🧩 Xem tất cả các cuộc hẹn
 @router.get("/appointments", response_model=List[schemas.AppointmentOut])
 def list_appointments(db: Session = Depends(get_db), _: dict = Depends(require_role(Role.admin))):
-    appointments = db.query(models.Appointment).all()
+    appointments = db.query(models.Appointment)\
+        .options(joinedload(models.Appointment.patient))\
+        .options(joinedload(models.Appointment.doctor).joinedload(models.User.doctor_profile))\
+        .order_by(models.Appointment.start_at.desc())\
+        .all()
+    
+    # Populate specialty field for doctors
+    for appt in appointments:
+        if appt.doctor and appt.doctor.doctor_profile:
+            appt.doctor.specialty = appt.doctor.doctor_profile.specialty
+    
     return appointments
 
 
@@ -79,3 +89,40 @@ def delete_appointment(appointment_id: int, db: Session = Depends(get_db), _: di
     db.delete(appt)
     db.commit()
     return {"message": "Appointment deleted successfully"}
+
+
+# 🧩 Toggle trạng thái active của user
+@router.post("/users/{user_id}/toggle-active")
+def toggle_user_active(user_id: int, db: Session = Depends(get_db), _: dict = Depends(require_role(Role.admin))):
+    user = db.query(models.User).filter(models.User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    user.is_active = not user.is_active
+    db.commit()
+    db.refresh(user)
+    
+    return {
+        "message": f"User {'activated' if user.is_active else 'deactivated'} successfully",
+        "is_active": user.is_active
+    }
+
+
+# 🧩 Reset mật khẩu user về default
+@router.post("/users/{user_id}/reset-password")
+def reset_user_password(user_id: int, db: Session = Depends(get_db), _: dict = Depends(require_role(Role.admin))):
+    from app.security import get_password_hash
+    
+    user = db.query(models.User).filter(models.User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Reset về mật khẩu mặc định
+    default_password = "Password@123"
+    user.password_hash = get_password_hash(default_password)
+    db.commit()
+    
+    return {
+        "message": "Password reset successfully",
+        "default_password": default_password
+    }
