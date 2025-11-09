@@ -49,13 +49,21 @@ def get_dashboard_stats(
         models.User.is_active == True
     ).count()
     
+    # Tổng số chuyên khoa (đếm số lượng specialty unique)
+    total_specializations = db.query(
+        func.count(func.distinct(models.DoctorProfile.specialty))
+    ).filter(
+        models.DoctorProfile.specialty.isnot(None)
+    ).scalar() or 0
+    
     return schemas.DashboardStats(
         total_patients=total_patients,
         total_doctors=total_doctors,
         total_appointments=total_appointments,
         pending_appointments=pending_appointments,
         today_appointments=today_appointments,
-        active_users=active_users
+        active_users=active_users,
+        total_specializations=total_specializations
     )
 
 
