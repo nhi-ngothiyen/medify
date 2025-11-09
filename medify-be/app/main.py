@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routers import auth, doctors, appointments, reviews, admin
+from app.routers import auth, doctors, appointments, reviews, admin, dashboard
 
 # (Tùy chọn) Nếu bạn muốn dùng settings cho các cấu hình khác:
 # from app.config import settings
@@ -16,6 +16,7 @@ tags_metadata = [
     {"name": "appointments", "description": "Quản lý lịch hẹn"},
     {"name": "reviews", "description": "Đánh giá sau khám"},
     {"name": "admin", "description": "Quản trị hệ thống (chỉ Admin)"},
+    {"name": "dashboard", "description": "Thống kê & Dashboard (Admin)"},
 ]
 
 app = FastAPI(
@@ -84,3 +85,4 @@ app.include_router(doctors.router)
 app.include_router(appointments.router)
 app.include_router(reviews.router)
 app.include_router(admin.router)
+app.include_router(dashboard.router)

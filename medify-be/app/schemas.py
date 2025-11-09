@@ -52,6 +52,19 @@ class UserOut(BaseModel):
     is_active: bool
 
 
+class UserWithSpecialtyOut(BaseModel):
+    """User output with specialty field for doctors in appointments"""
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    email: EmailStr
+    full_name: str
+    gender: Optional[Gender]
+    role: Role
+    is_active: bool
+    specialty: Optional[str] = None  # Will be populated from doctor_profile
+
+
 class LoginIn(BaseModel):
     email: EmailStr
     password: str
@@ -107,9 +120,79 @@ class AppointmentOut(BaseModel):
     start_at: datetime
     end_at: datetime
     status: AppointmentStatus
+    note: Optional[str] = None
+    
+    # Nested relationships for frontend display
+    patient: Optional[UserOut] = None
+    doctor: Optional[UserWithSpecialtyOut] = None
 
 
 class ReviewCreate(BaseModel):
     appointment_id: int
     rating: int = Field(..., ge=1, le=5)
     comment: Optional[str] = None
+
+
+# ==================== Dashboard Schemas ====================
+
+class DashboardStats(BaseModel):
+    """Thống kê tổng quan cho dashboard"""
+    total_patients: int
+    total_doctors: int
+    total_appointments: int
+    pending_appointments: int
+    today_appointments: int
+    active_users: int
+
+
+class AppointmentStatusCount(BaseModel):
+    """Số lượng appointment theo trạng thái"""
+    status: str
+    count: int
+
+
+class UserRoleCount(BaseModel):
+    """Số lượng user theo role"""
+    role: str
+    count: int
+
+
+class SpecialtyStats(BaseModel):
+    """Thống kê theo chuyên khoa"""
+    specialty: str
+    doctor_count: int
+    appointment_count: int
+
+
+class TopDoctor(BaseModel):
+    """Top bác sĩ theo số lượng appointments"""
+    doctor_id: int
+    doctor_name: str
+    specialty: str
+    appointment_count: int
+    avg_rating: float
+
+
+class RecentActivity(BaseModel):
+    """Hoạt động gần đây"""
+    id: int
+    type: str  # "appointment", "user_registration", "review"
+    description: str
+    created_at: datetime
+
+
+class AppointmentTrend(BaseModel):
+    """Xu hướng đặt lịch theo thời gian"""
+    date: str
+    count: int
+
+
+class DashboardData(BaseModel):
+    """Tổng hợp tất cả dữ liệu dashboard"""
+    overview: DashboardStats
+    appointments_by_status: List[AppointmentStatusCount]
+    users_by_role: List[UserRoleCount]
+    specialties: List[SpecialtyStats]
+    top_doctors: List[TopDoctor]
+    recent_activities: List[RecentActivity]
+    appointment_trends: List[AppointmentTrend]
