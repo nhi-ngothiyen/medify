@@ -1,5 +1,6 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import Dashboard from './pages/Dashboard';
 import Users from './pages/Users';
 import Login from './pages/Login';
 import PrivateRoute from './components/PrivateRoute';
@@ -15,7 +16,15 @@ export default function App() {
           path={ROUTES.HOME}
           element={
             <PrivateRoute>
-              <Users />
+              <Dashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={ROUTES.DASHBOARD}
+          element={
+            <PrivateRoute>
+              <Dashboard />
             </PrivateRoute>
           }
         />

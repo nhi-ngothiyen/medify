@@ -15,19 +15,40 @@ export default function Login() {
     setErr(undefined);
     setLoading(true);
     
+    console.log('🔐 Bắt đầu đăng nhập...', { email });
+    
     try {
+      console.log('📡 Đang gọi API login...');
       const data = await authService.login(email, password);
+      console.log('✅ Nhận được response:', data);
+      
+      if (!data || !data.access_token) {
+        throw new Error('Không nhận được token từ server');
+      }
+      
       localStorage.setItem(STORAGE_KEYS.AUTH_TOKEN, data.access_token);
+      console.log('💾 Đã lưu token');
       
       // Save user data if available
       if (data.user) {
         localStorage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(data.user));
+        console.log('💾 Đã lưu user data');
       }
       
+      console.log('🔄 Đang chuyển hướng...');
+      // Redirect to home
       window.location.href = ROUTES.HOME;
     } catch (e: any) {
-      setErr('Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.');
-    } finally {
+      console.error('❌ Login error:', e);
+      console.error('Error details:', {
+        message: e.message,
+        name: e.name,
+        stack: e.stack
+      });
+      
+      // Show specific error message
+      const errorMessage = e.message || 'Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.';
+      setErr(errorMessage);
       setLoading(false);
     }
   };

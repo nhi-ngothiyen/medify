@@ -1,41 +1,39 @@
+import { Link, useLocation } from 'react-router-dom';
 import logo from '../../assets/logo.png';
+import { ROUTES } from '../../constants';
 import './Sidebar.css';
 
 interface SidebarLink {
   id: string;
   label: string;
-  active?: boolean;
+  path: string;
+  icon: string;
 }
 
 const sidebarLinks: SidebarLink[] = [
-  { id: 'overview', label: 'Overview', active: true },
-  { id: 'doctor', label: 'Doctor' },
-  { id: 'patient', label: 'Patient' },
-  { id: 'department', label: 'Department' },
-  { id: 'appointment', label: 'Appointment' },
-  { id: 'pharmacy', label: 'Pharmacy' },
-  { id: 'payment', label: 'Payment' },
-  { id: 'report', label: 'Report' },
-  { id: 'notice', label: 'Notice' },
-  { id: 'settings', label: 'Settings' },
+  { id: 'dashboard', label: 'Dashboard', path: ROUTES.DASHBOARD, icon: '📊' },
+  { id: 'users', label: 'Quản lý người dùng', path: ROUTES.USERS, icon: '👥' },
 ];
 
 export default function Sidebar() {
+  const location = useLocation();
+
   return (
     <aside className="sidebar">
       <div className="sidebar-brand">
-        <img src={logo} alt="MediKit logo" className="sidebar-logo" />
-        <span className="sidebar-title">MediKit</span>
+        <img src={logo} alt="Medify logo" className="sidebar-logo" />
+        <span className="sidebar-title">Medify Admin</span>
       </div>
       <nav className="sidebar-nav">
         {sidebarLinks.map((link) => (
-          <a
+          <Link
             key={link.id}
-            className={`sidebar-link ${link.active ? 'active' : ''}`}
-            href="#"
+            to={link.path}
+            className={`sidebar-link ${location.pathname === link.path || (location.pathname === '/' && link.path === ROUTES.DASHBOARD) ? 'active' : ''}`}
           >
-            {link.label}
-          </a>
+            <span className="sidebar-link-icon">{link.icon}</span>
+            <span className="sidebar-link-label">{link.label}</span>
+          </Link>
         ))}
       </nav>
     </aside>

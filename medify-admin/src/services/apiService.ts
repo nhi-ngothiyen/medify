@@ -5,32 +5,80 @@
 
 import { STORAGE_KEYS } from '../constants';
 
-const API_BASE_URL = import.meta.env.VITE_API;
+const API_BASE_URL = import.meta.env.VITE_API || 'http://localhost:8000';
 
 /**
- * Make authenticated API request
+ * Make authenticated API request with timeout
  * @param path - API endpoint path
  * @param opts - Fetch options
  * @returns Promise with JSON response
  */
 export async function api(path: string, opts: RequestInit = {}) {
   const token = localStorage.getItem(STORAGE_KEYS.AUTH_TOKEN);
+  const url = `${API_BASE_URL}${path}`;
   
-  const res = await fetch(`${API_BASE_URL}${path}`, {
-    ...opts,
-    headers: {
-      'Content-Type': 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...(opts.headers || {})
-    }
+  console.log('🌐 API Request:', {
+    method: opts.method || 'GET',
+    url,
+    hasToken: !!token
   });
   
-  if (!res.ok) {
-    const errorText = await res.text();
-    throw new Error(errorText || 'API request failed');
-  }
+  // Create AbortController for timeout
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 seconds timeout
   
-  return res.json().catch(() => ({}));
+  try {
+    const res = await fetch(url, {
+      ...opts,
+      signal: controller.signal,
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...(opts.headers || {})
+      }
+    });
+    
+    clearTimeout(timeoutId);
+    
+    console.log('📥 API Response:', {
+      status: res.status,
+      statusText: res.statusText,
+      ok: res.ok
+    });
+    
+    if (!res.ok) {
+      let errorText = 'API request failed';
+      try {
+        errorText = await res.text();
+        console.error('❌ Error response body:', errorText);
+      } catch (e) {
+        // Ignore error reading response
+      }
+      throw new Error(errorText || `HTTP ${res.status}: ${res.statusText}`);
+    }
+    
+    const jsonData = await res.json().catch(() => ({}));
+    console.log('✅ API Success:', jsonData);
+    return jsonData;
+  } catch (error: any) {
+    clearTimeout(timeoutId);
+    
+    console.error('❌ API Error:', {
+      name: error.name,
+      message: error.message,
+      stack: error.stack
+    });
+    
+    if (error.name === 'AbortError') {
+      throw new Error('Request timeout. Vui lòng kiểm tra kết nối mạng hoặc thử lại sau.');
+    }
+    
+    if (error.message) {
+      throw error;
+    }
+    
+    throw new Error('Không thể kết nối đến server. Vui lòng kiểm tra backend có đang chạy không.');
+  }
 }
 
 /**
@@ -73,6 +121,60 @@ export const userService = {
   
   resetPassword: async (id: number) => {
     return api(`/admin/users/${id}/reset-password`, { method: 'POST' });
+  }
+};
+
+/**
+ * Dashboard API endpoints
+ */
+export const dashboardService = {
+  getStats: async () => {
+    return api('/admin/dashboard/stats');
+  },
+  
+  getAppointmentsByStatus: async () => {
+    return api('/admin/dashboard/appointments-by-status');
+  },
+  
+  getUsersByRole: async () => {
+    return api('/admin/dashboard/users-by-role');
+  },
+  
+  getSpecialties: async () => {
+    return api('/admin/dashboard/specialties');
+  },
+  
+  getTopDoctors: async (limit = 5) => {
+    return api(`/admin/dashboard/top-doctors?limit=${limit}`);
+  },
+  
+  getAppointmentTrends: async (days = 7) => {
+    return api(`/admin/dashboard/appointment-trends?days=${days}`);
+  },
+  
+  getRecentActivities: async (limit = 10) => {
+    return api(`/admin/dashboard/recent-activities?limit=${limit}`);
+  },
+  
+  getAllDashboardData: async () => {
+    return api('/admin/dashboard');
+  }
+};
+
+/**
+ * Appointment API endpoints
+ */
+export const appointmentService = {
+  getAll: async () => {
+    return api('/admin/appointments');
+  },
+  
+  getById: async (id: number) => {
+    return api(`/appointments/${id}`);
+  },
+  
+  delete: async (id: number) => {
+    return api(`/admin/appointments/${id}`, { method: 'DELETE' });
   }
 };
 

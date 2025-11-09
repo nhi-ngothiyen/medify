@@ -143,6 +143,7 @@ class DashboardStats(BaseModel):
     pending_appointments: int
     today_appointments: int
     active_users: int
+    total_specializations: int
 
 
 class AppointmentStatusCount(BaseModel):
