@@ -115,7 +115,7 @@ class AppointmentOut(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
     id: int
-    doctor_user_id: int
+    doctor_id: int  # Changed from doctor_user_id to match model
     patient_id: int
     start_at: datetime
     end_at: datetime
