@@ -50,7 +50,9 @@ export default function Users() {
   if (loading) {
     return (
       <Layout>
-        <div className="users-loading">Đang tải...</div>
+        <div className="users-container">
+          <div className="users-loading">Đang tải...</div>
+        </div>
       </Layout>
     );
   }
@@ -58,9 +60,11 @@ export default function Users() {
   if (error) {
     return (
       <Layout>
-        <div className="users-error">
-          <div className="error-text">{error}</div>
-          <button onClick={load} className="retry-button">Thử lại</button>
+        <div className="users-container">
+          <div className="users-error">
+            <div className="error-text">{error}</div>
+            <button onClick={load} className="retry-button">Thử lại</button>
+          </div>
         </div>
       </Layout>
     );
@@ -68,10 +72,11 @@ export default function Users() {
 
   return (
     <Layout>
-      <div className="users-header">
-        <h2>Quản lý người dùng</h2>
-      </div>
-      <table className="users-table">
+      <div className="users-container">
+        <div className="users-header">
+          <h2>Quản lý người dùng</h2>
+        </div>
+        <table className="users-table">
         <thead>
           <tr>
             <th>ID</th>
@@ -106,6 +111,7 @@ export default function Users() {
           ))}
         </tbody>
       </table>
+      </div>
     </Layout>
   );
 }

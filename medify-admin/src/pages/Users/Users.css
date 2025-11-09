@@ -1,15 +1,22 @@
 /* Users Page Styles - Medify Admin */
 
+.users-container {
+  padding: 24px;
+  background: #F7F8FC;
+  min-height: 100vh;
+}
+
 .users-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 24px;
 }
 
 .users-header h2 {
   font-size: 28px;
   font-weight: 700;
-  color: var(--primary-blue);
+  color: #1A1A2E;
   margin: 0;
 }
 
