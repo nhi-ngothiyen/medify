@@ -86,11 +86,10 @@ export interface DashboardData {
 export interface Appointment {
   id: number;
   patient_id: number;
-  doctor_id: number;
-  doctor_user_id: number;
+  doctor_id: number;  // Backend uses doctor_id (not doctor_user_id)
   start_at: string;
   end_at: string;
-  status: 'BOOKED' | 'CONFIRMED' | 'CANCELLED' | 'DONE';
+  status: 'BOOKED' | 'CANCELED' | 'DONE' | 'SCHEDULED' | 'COMPLETED' | 'NO_SHOW';
   note?: string;  // Backend uses "note" not "notes"
   patient?: {
     id: number;
@@ -109,5 +108,33 @@ export interface Appointment {
     gender?: string;
     specialty?: string;  // From doctor_profile
   };
+  review?: {
+    id: number;
+    rating: number;
+    comment?: string;
+  };
+}
+
+// Mock data types for appointment details
+export interface MedicalRecord {
+  diagnosis?: string;
+  treatment?: string;
+  notes?: string;
+}
+
+export interface Prescription {
+  medicineDetails?: string;
+}
+
+export interface Payment {
+  amount?: number;
+  status?: 'PAID' | 'UNPAID' | 'PENDING';
+  paymentMethod?: string;
+}
+
+export interface AppointmentDetail extends Appointment {
+  medicalRecord?: MedicalRecord;
+  prescription?: Prescription;
+  payment?: Payment;
 }
 

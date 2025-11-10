@@ -1,0 +1,530 @@
+/* Appointments Page Styles - Medify Admin */
+
+.appointments-container {
+  padding: 24px;
+  background: #F7F8FC;
+  min-height: 100vh;
+}
+
+.appointments-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.appointments-header h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1A1A2E;
+  margin: 0;
+}
+
+/* Filters */
+.appointments-filters {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filter-group label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #6B7280;
+}
+
+.filter-select,
+.filter-input {
+  padding: 10px 14px;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #1A1A2E;
+  background: white;
+  min-width: 200px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-select:hover,
+.filter-input:hover {
+  border-color: #5B7FFF;
+}
+
+.filter-select:focus,
+.filter-input:focus {
+  outline: none;
+  border-color: #5B7FFF;
+  box-shadow: 0 0 0 3px rgba(91, 127, 255, 0.1);
+}
+
+/* Table Wrapper */
+.appointments-table-wrapper {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+  overflow-x: auto;
+}
+
+.appointments-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1200px;
+}
+
+.appointments-table thead {
+  background: #f8fafc;
+  color: #475569;
+}
+
+.appointments-table th,
+.appointments-table td {
+  padding: 18px 20px;
+  text-align: left;
+  border-bottom: 1px solid #eef1f6;
+}
+
+.appointments-table th {
+  font-weight: 600;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+}
+
+.sort-icon {
+  margin-left: 8px;
+  color: #9CA3AF;
+  font-size: 14px;
+}
+
+.appointments-table td {
+  font-size: 16px;
+  color: #1f2937;
+}
+
+.appointments-table tbody tr:hover {
+  background: #f1f5ff;
+}
+
+/* Patient and Doctor Cells */
+.patient-cell,
+.doctor-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.patient-cell span,
+.doctor-cell span {
+  font-size: 16px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #5B7FFF;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.doctor-avatar {
+  background: #22C55E;
+}
+
+/* Status Badges */
+.status-badge {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.status-badge.scheduled {
+  background: #DBEAFE;
+  color: #1E40AF;
+}
+
+.status-badge.completed {
+  background: #D1FAE5;
+  color: #047857;
+}
+
+.status-badge.cancelled {
+  background: #FEE2E2;
+  color: #B91C1C;
+}
+
+.status-badge.no-show {
+  background: #F3F4F6;
+  color: #6B7280;
+}
+
+.status-badge.default {
+  background: #E5E7EB;
+  color: #4B5563;
+}
+
+/* Payment Badges */
+.payment-badge {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.payment-badge.paid {
+  background: #D1FAE5;
+  color: #047857;
+}
+
+.payment-badge.unpaid {
+  background: #FEE2E2;
+  color: #B91C1C;
+}
+
+.payment-badge.pending {
+  background: #FEF3C7;
+  color: #92400E;
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.action-button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.view-button {
+  background: #5B7FFF;
+  color: white;
+}
+
+.view-button:hover {
+  background: #1a50e6;
+  transform: translateY(-1px);
+}
+
+.checkin-button {
+  background: #22C55E;
+  color: white;
+}
+
+.checkin-button:hover {
+  background: #16A34A;
+  transform: translateY(-1px);
+}
+
+/* No Data */
+.no-data {
+  text-align: center;
+  padding: 40px;
+  color: #6B7280;
+  font-size: 16px;
+}
+
+/* Loading & Error States */
+.appointments-loading,
+.appointments-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  gap: 16px;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid #E5E7EB;
+  border-top-color: #5B7FFF;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.appointments-loading p {
+  color: #6B7280;
+  font-size: 16px;
+}
+
+.error-text {
+  color: #EF4444;
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+.retry-button {
+  padding: 10px 20px;
+  background: #5B7FFF;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.retry-button:hover {
+  background: #1a50e6;
+  transform: translateY(-2px);
+}
+
+/* Modal Styles (reusing from Dashboard) */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-content {
+  background: white;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 900px;
+  max-height: 85vh;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #1A1A2E;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 32px;
+  color: #9CA3AF;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.2s;
+  line-height: 1;
+}
+
+.modal-close:hover {
+  background: #F3F4F6;
+  color: #1A1A2E;
+}
+
+.modal-body {
+  padding: 24px;
+  max-height: calc(85vh - 100px);
+  overflow-y: auto;
+}
+
+/* Appointment Detail Grid */
+.appointment-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.detail-section {
+  background: #F9FAFB;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid #E5E7EB;
+}
+
+.detail-section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #5B7FFF;
+}
+
+.detail-section-icon {
+  font-size: 24px;
+}
+
+.detail-section-header h4 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #5B7FFF;
+}
+
+.detail-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.detail-table tbody tr {
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.detail-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.detail-table td {
+  padding: 12px 0;
+  vertical-align: top;
+}
+
+.detail-label {
+  font-size: 14px;
+  color: #6B7280;
+  font-weight: 500;
+  width: 40%;
+}
+
+.detail-value {
+  font-size: 14px;
+  color: #1A1A2E;
+  font-weight: 600;
+}
+
+.payment-status-badge {
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 20px;
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.payment-status-badge.paid {
+  background: #22C55E;
+}
+
+.payment-status-badge.unpaid {
+  background: #EF4444;
+}
+
+.payment-status-badge.pending {
+  background: #F59E0B;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .appointment-detail-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .appointments-container {
+    padding: 16px;
+  }
+
+  .appointments-table {
+    font-size: 12px;
+    min-width: 1000px;
+  }
+
+  .appointments-table th,
+  .appointments-table td {
+    padding: 12px;
+  }
+
+  .appointments-filters {
+    flex-direction: column;
+  }
+
+  .filter-select,
+  .filter-input {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+  }
+
+  .action-button {
+    width: 100%;
+  }
+
+  .modal-content {
+    width: 95%;
+    max-height: 90vh;
+  }
+}
+
