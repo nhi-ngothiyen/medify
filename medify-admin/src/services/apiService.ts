@@ -170,7 +170,12 @@ export const appointmentService = {
   },
   
   getById: async (id: number) => {
-    return api(`/appointments/${id}`);
+    // Try admin endpoint first, fallback to regular endpoint
+    try {
+      return api(`/admin/appointments/${id}`);
+    } catch {
+      return api(`/appointments/${id}`);
+    }
   },
   
   delete: async (id: number) => {

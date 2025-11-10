@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import Users from './pages/Users';
+import Appointments from './pages/Appointments';
 import Login from './pages/Login';
 import PrivateRoute from './components/PrivateRoute';
 import { ROUTES, STORAGE_KEYS } from './constants';
@@ -33,6 +34,14 @@ export default function App() {
           element={
             <PrivateRoute>
               <Users />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={ROUTES.APPOINTMENTS}
+          element={
+            <PrivateRoute>
+              <Appointments />
             </PrivateRoute>
           }
         />

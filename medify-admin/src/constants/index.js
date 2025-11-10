@@ -7,7 +7,8 @@ export const ROUTES = {
     HOME: '/',
     DASHBOARD: '/dashboard',
     LOGIN: '/login',
-    USERS: '/users'
+    USERS: '/users',
+    APPOINTMENTS: '/appointments'
 };
 export const USER_ROLES = {
     ADMIN: 'admin',
