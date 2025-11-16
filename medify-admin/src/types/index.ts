@@ -172,3 +172,11 @@ export interface DoctorDetail {
   }>;
 }
 
+// ==================== Specialization Types ====================
+
+export interface Specialization {
+  name: string;
+  doctor_count: number;
+  avg_rating: number;
+}
+

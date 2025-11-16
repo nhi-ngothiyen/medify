@@ -134,6 +134,49 @@ const DoctorModal = memo(({ doctor, onClose }) => {
                                                                     : 'Khác' })] }), _jsxs("tr", { children: [_jsx("td", { className: "detail-label", children: "Tr\u1EA1ng th\u00E1i" }), _jsx("td", { className: "detail-value", children: _jsx("span", { className: `status-badge ${doctor.user.is_active ? 'active' : 'inactive'}`, children: doctor.user.is_active ? 'Hoạt động' : 'Không hoạt động' }) })] })] }) })] }), _jsxs("div", { className: "detail-section", children: [_jsxs("div", { className: "detail-section-header", children: [_jsx("span", { className: "detail-section-icon", children: "\uD83C\uDFE5" }), _jsx("h4", { children: "Th\u00F4ng tin chuy\u00EAn m\u00F4n" })] }), _jsx("table", { className: "detail-table", children: _jsxs("tbody", { children: [_jsxs("tr", { children: [_jsx("td", { className: "detail-label", children: "Chuy\u00EAn khoa" }), _jsx("td", { className: "detail-value", children: doctor.profile_specialty })] }), _jsxs("tr", { children: [_jsx("td", { className: "detail-label", children: "Kinh nghi\u1EC7m" }), _jsxs("td", { className: "detail-value", children: [doctor.years_exp, " n\u0103m"] })] }), _jsxs("tr", { children: [_jsx("td", { className: "detail-label", children: "\u0110\u00E1nh gi\u00E1" }), _jsx("td", { className: "detail-value", children: _jsx(StarRating, { rating: doctor.avg_rating }) })] }), _jsxs("tr", { children: [_jsx("td", { className: "detail-label", children: "H\u1ECDc v\u1ECB" }), _jsx("td", { className: "detail-value", children: _jsx("span", { className: "degree-badge", children: getDegree(doctor.profile_specialty, doctor.years_exp) }) })] })] }) })] }), doctor.bio && (_jsxs("div", { className: "detail-section full-width", children: [_jsxs("div", { className: "detail-section-header", children: [_jsx("span", { className: "detail-section-icon", children: "\uD83D\uDCDD" }), _jsx("h4", { children: "Gi\u1EDBi thi\u1EC7u" })] }), _jsx("p", { className: "bio-text", children: doctor.bio })] })), doctor.availabilities && doctor.availabilities.length > 0 && (_jsxs("div", { className: "detail-section full-width", children: [_jsxs("div", { className: "detail-section-header", children: [_jsx("span", { className: "detail-section-icon", children: "\uD83D\uDCC5" }), _jsx("h4", { children: "L\u1ECBch l\u00E0m vi\u1EC7c" })] }), _jsx("div", { className: "availability-list", children: doctor.availabilities.map((avail, index) => (_jsxs("div", { className: "availability-item", children: [_jsx("span", { className: "availability-day", children: WEEKDAY_NAMES[avail.weekday] }), _jsxs("span", { className: "availability-time", children: [avail.start_time, " - ", avail.end_time] })] }, `${avail.weekday}-${index}`))) })] }))] }) })] }) }));
 });
 DoctorModal.displayName = 'DoctorModal';
+const CreateDoctorModal = memo(({ isOpen, onClose, onCreate, specialties }) => {
+    const [formData, setFormData] = useState({
+        email: '',
+        full_name: '',
+        password: '',
+        gender: '',
+        specialty: '',
+        years_exp: 0,
+        bio: ''
+    });
+    useEffect(() => {
+        if (isOpen) {
+            setFormData({
+                email: '',
+                full_name: '',
+                password: '',
+                gender: '',
+                specialty: '',
+                years_exp: 0,
+                bio: ''
+            });
+        }
+    }, [isOpen]);
+    if (!isOpen)
+        return null;
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const submitData = {
+            email: formData.email,
+            full_name: formData.full_name,
+            password: formData.password,
+            specialty: formData.specialty,
+            years_exp: formData.years_exp
+        };
+        if (formData.gender)
+            submitData.gender = formData.gender;
+        if (formData.bio)
+            submitData.bio = formData.bio;
+        onCreate(submitData);
+    };
+    return (_jsx("div", { className: "modal-overlay", onClick: onClose, children: _jsxs("div", { className: "modal-content", onClick: (e) => e.stopPropagation(), children: [_jsxs("div", { className: "modal-header", children: [_jsx("h3", { children: "Th\u00EAm b\u00E1c s\u0129 m\u1EDBi" }), _jsx("button", { className: "modal-close", onClick: onClose, children: "\u00D7" })] }), _jsxs("form", { onSubmit: handleSubmit, className: "modal-body", children: [_jsxs("div", { className: "doctor-detail-grid", children: [_jsxs("div", { className: "detail-section", children: [_jsxs("div", { className: "detail-section-header", children: [_jsx("span", { className: "detail-section-icon", children: "\uD83D\uDC64" }), _jsx("h4", { children: "Th\u00F4ng tin c\u00E1 nh\u00E2n" })] }), _jsxs("div", { className: "form-group", children: [_jsx("label", { children: "Email *" }), _jsx("input", { type: "email", value: formData.email, onChange: (e) => setFormData({ ...formData, email: e.target.value }), className: "form-input", required: true })] }), _jsxs("div", { className: "form-group", children: [_jsx("label", { children: "H\u1ECD v\u00E0 t\u00EAn *" }), _jsx("input", { type: "text", value: formData.full_name, onChange: (e) => setFormData({ ...formData, full_name: e.target.value }), className: "form-input", required: true })] }), _jsxs("div", { className: "form-group", children: [_jsx("label", { children: "M\u1EADt kh\u1EA9u * (8-16 k\u00FD t\u1EF1, bao g\u1ED3m ch\u1EEF hoa, ch\u1EEF th\u01B0\u1EDDng, s\u1ED1 v\u00E0 k\u00FD t\u1EF1 \u0111\u1EB7c bi\u1EC7t)" }), _jsx("input", { type: "password", value: formData.password, onChange: (e) => setFormData({ ...formData, password: e.target.value }), className: "form-input", minLength: 8, maxLength: 16, required: true })] }), _jsxs("div", { className: "form-group", children: [_jsx("label", { children: "Gi\u1EDBi t\u00EDnh" }), _jsxs("select", { value: formData.gender, onChange: (e) => setFormData({ ...formData, gender: e.target.value }), className: "form-input", children: [_jsx("option", { value: "", children: "Ch\u1ECDn gi\u1EDBi t\u00EDnh" }), _jsx("option", { value: "MALE", children: "Nam" }), _jsx("option", { value: "FEMALE", children: "N\u1EEF" }), _jsx("option", { value: "OTHER", children: "Kh\u00E1c" })] })] })] }), _jsxs("div", { className: "detail-section", children: [_jsxs("div", { className: "detail-section-header", children: [_jsx("span", { className: "detail-section-icon", children: "\uD83C\uDFE5" }), _jsx("h4", { children: "Th\u00F4ng tin chuy\u00EAn m\u00F4n" })] }), _jsxs("div", { className: "form-group", children: [_jsx("label", { children: "Chuy\u00EAn khoa *" }), _jsxs("select", { value: formData.specialty, onChange: (e) => setFormData({ ...formData, specialty: e.target.value }), className: "form-input", required: true, children: [_jsx("option", { value: "", children: "Ch\u1ECDn chuy\u00EAn khoa" }), specialties.map((spec) => (_jsx("option", { value: spec, children: spec }, spec)))] })] }), _jsxs("div", { className: "form-group", children: [_jsx("label", { children: "Kinh nghi\u1EC7m (n\u0103m) *" }), _jsx("input", { type: "number", value: formData.years_exp, onChange: (e) => setFormData({ ...formData, years_exp: parseInt(e.target.value) || 0 }), className: "form-input", min: "0", required: true })] }), _jsxs("div", { className: "form-group", children: [_jsx("label", { children: "Gi\u1EDBi thi\u1EC7u" }), _jsx("textarea", { value: formData.bio, onChange: (e) => setFormData({ ...formData, bio: e.target.value }), className: "form-input", rows: 4, placeholder: "Nh\u1EADp th\u00F4ng tin gi\u1EDBi thi\u1EC7u v\u1EC1 b\u00E1c s\u0129..." })] })] })] }), _jsxs("div", { className: "modal-footer", children: [_jsx("button", { type: "button", onClick: onClose, className: "btn-cancel", children: "H\u1EE7y" }), _jsx("button", { type: "submit", className: "btn-save", disabled: !formData.email || !formData.full_name || !formData.password || !formData.specialty, children: "T\u1EA1o b\u00E1c s\u0129" })] })] })] }) }));
+});
+CreateDoctorModal.displayName = 'CreateDoctorModal';
 // Main Component
 export default function Doctors() {
     const [doctors, setDoctors] = useState([]);
@@ -146,6 +189,7 @@ export default function Doctors() {
     const [sort, setSort] = useState({ field: 'name', order: 'asc' });
     const [currentPage, setCurrentPage] = useState(1);
     const [allSpecialties, setAllSpecialties] = useState([]);
+    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const hasInitialized = useRef(false);
     // Debounce search query
     const debouncedSearchQuery = useDebounce(searchQuery, SEARCH_DEBOUNCE_MS);
@@ -218,6 +262,18 @@ export default function Doctors() {
             alert('Không thể tải thông tin chi tiết bác sĩ');
         }
     }, []);
+    const handleCreateDoctor = useCallback(async (data) => {
+        try {
+            await doctorService.create(data);
+            setIsCreateModalOpen(false);
+            loadDoctors(specialtyFilter, debouncedSearchQuery, searchField, sort.field, sort.order);
+        }
+        catch (e) {
+            const errorMessage = e instanceof Error ? e.message : 'Có lỗi xảy ra khi tạo bác sĩ';
+            alert(errorMessage);
+            console.error('Error creating doctor:', e);
+        }
+    }, [specialtyFilter, debouncedSearchQuery, searchField, sort.field, sort.order, loadDoctors]);
     const handleDelete = useCallback(async (doctorId, doctorName) => {
         if (!confirm(`Bạn có chắc muốn xóa bác sĩ "${doctorName}"?`))
             return;
@@ -268,5 +324,5 @@ export default function Doctors() {
                                                     ? SEARCH_PLACEHOLDERS.NAME
                                                     : searchField === 'email'
                                                         ? SEARCH_PLACEHOLDERS.EMAIL
-                                                        : SEARCH_PLACEHOLDERS.SPECIALTY, value: searchQuery, onChange: (e) => setSearchQuery(e.target.value), "aria-label": "Search doctors" }), _jsx("button", { type: "submit", className: "search-button", "aria-label": "Search", children: "\uD83D\uDD0D" })] })] }), _jsx("button", { className: "add-doctor-btn", onClick: () => alert('Tính năng thêm bác sĩ sẽ được triển khai sau'), children: "+ Add Doctor" })] }), loading && doctors.length > 0 && (_jsx("div", { className: "loading-overlay", children: _jsx("div", { className: "spinner" }) })), _jsx("div", { className: "doctors-table-wrapper", children: _jsxs("table", { className: "doctors-table", children: [_jsx("thead", { children: _jsxs("tr", { children: [_jsx("th", { children: TABLE_HEADER_LABELS.AVATAR }), _jsx(SortableHeader, { field: "name", label: TABLE_HEADER_LABELS.NAME, currentSort: sort, onSort: handleSort }), _jsx("th", { children: TABLE_HEADER_LABELS.EMAIL }), _jsx(SortableHeader, { field: "specialty", label: TABLE_HEADER_LABELS.SPECIALIZATION, currentSort: sort, onSort: handleSort }), _jsx("th", { children: TABLE_HEADER_LABELS.DEGREE }), _jsx(SortableHeader, { field: "experience", label: TABLE_HEADER_LABELS.EXPERIENCE, currentSort: sort, onSort: handleSort }), _jsx(SortableHeader, { field: "rating", label: TABLE_HEADER_LABELS.RATING, currentSort: sort, onSort: handleSort }), _jsx("th", { children: TABLE_HEADER_LABELS.ACTION })] }) }), _jsx("tbody", { children: paginatedDoctors.length === 0 ? (_jsx("tr", { children: _jsx("td", { colSpan: 8, className: "no-data", children: "Kh\u00F4ng c\u00F3 b\u00E1c s\u0129 n\u00E0o" }) })) : (paginatedDoctors.map((doctor) => (_jsx(DoctorRow, { doctor: doctor, onView: handleViewDoctor, onDelete: handleDelete }, doctor.id)))) })] }) }), _jsx(Pagination, { currentPage: currentPage, totalPages: totalPages, onPageChange: handlePageChange }), _jsx(DoctorModal, { doctor: selectedDoctor, onClose: () => setSelectedDoctor(null) })] }) }));
+                                                        : SEARCH_PLACEHOLDERS.SPECIALTY, value: searchQuery, onChange: (e) => setSearchQuery(e.target.value), "aria-label": "Search doctors" }), _jsx("button", { type: "submit", className: "search-button", "aria-label": "Search", children: "\uD83D\uDD0D" })] })] }), _jsx("button", { className: "add-doctor-btn", onClick: () => setIsCreateModalOpen(true), children: "+ Add Doctor" })] }), loading && doctors.length > 0 && (_jsx("div", { className: "loading-overlay", children: _jsx("div", { className: "spinner" }) })), _jsx("div", { className: "doctors-table-wrapper", children: _jsxs("table", { className: "doctors-table", children: [_jsx("thead", { children: _jsxs("tr", { children: [_jsx("th", { children: TABLE_HEADER_LABELS.AVATAR }), _jsx(SortableHeader, { field: "name", label: TABLE_HEADER_LABELS.NAME, currentSort: sort, onSort: handleSort }), _jsx("th", { children: TABLE_HEADER_LABELS.EMAIL }), _jsx(SortableHeader, { field: "specialty", label: TABLE_HEADER_LABELS.SPECIALIZATION, currentSort: sort, onSort: handleSort }), _jsx("th", { children: TABLE_HEADER_LABELS.DEGREE }), _jsx(SortableHeader, { field: "experience", label: TABLE_HEADER_LABELS.EXPERIENCE, currentSort: sort, onSort: handleSort }), _jsx(SortableHeader, { field: "rating", label: TABLE_HEADER_LABELS.RATING, currentSort: sort, onSort: handleSort }), _jsx("th", { children: TABLE_HEADER_LABELS.ACTION })] }) }), _jsx("tbody", { children: paginatedDoctors.length === 0 ? (_jsx("tr", { children: _jsx("td", { colSpan: 8, className: "no-data", children: "Kh\u00F4ng c\u00F3 b\u00E1c s\u0129 n\u00E0o" }) })) : (paginatedDoctors.map((doctor) => (_jsx(DoctorRow, { doctor: doctor, onView: handleViewDoctor, onDelete: handleDelete }, doctor.id)))) })] }) }), _jsx(Pagination, { currentPage: currentPage, totalPages: totalPages, onPageChange: handlePageChange }), _jsx(CreateDoctorModal, { isOpen: isCreateModalOpen, onClose: () => setIsCreateModalOpen(false), onCreate: handleCreateDoctor, specialties: allSpecialties }), _jsx(DoctorModal, { doctor: selectedDoctor, onClose: () => setSelectedDoctor(null) })] }) }));
 }

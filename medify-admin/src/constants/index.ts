@@ -11,7 +11,8 @@ export const ROUTES = {
   LOGIN: '/login',
   USERS: '/users',
   APPOINTMENTS: '/appointments',
-  DOCTORS: '/doctors'
+  DOCTORS: '/doctors',
+  SPECIALIZATIONS: '/specializations'
 } as const;
 
 export const USER_ROLES = {

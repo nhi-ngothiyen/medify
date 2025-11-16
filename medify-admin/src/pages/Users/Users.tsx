@@ -74,7 +74,7 @@ export default function Users() {
     <Layout>
       <div className="users-container">
         <div className="users-header">
-          <h2>Quản lý người dùng</h2>
+          <h2>Users Management</h2>
         </div>
         <table className="users-table">
         <thead>

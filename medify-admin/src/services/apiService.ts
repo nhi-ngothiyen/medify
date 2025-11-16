@@ -209,8 +209,62 @@ export const doctorService = {
     return api(`/admin/doctors/${id}`);
   },
   
+  create: async (data: {
+    email: string;
+    full_name: string;
+    password: string;
+    gender?: 'MALE' | 'FEMALE' | 'OTHER';
+    specialty: string;
+    years_exp: number;
+    bio?: string;
+  }) => {
+    return api('/admin/doctors', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    });
+  },
+  
   delete: async (id: number) => {
     return api(`/admin/doctors/${id}`, { method: 'DELETE' });
+  }
+};
+
+/**
+ * Specialization management API endpoints
+ */
+export const specializationService = {
+  getAll: async (params?: {
+    search?: string;
+    sort_by?: string;
+    sort_order?: string;
+  }) => {
+    const queryParams = new URLSearchParams();
+    if (params?.search) queryParams.append('search', params.search);
+    if (params?.sort_by) queryParams.append('sort_by', params.sort_by);
+    if (params?.sort_order) queryParams.append('sort_order', params.sort_order);
+    
+    const queryString = queryParams.toString();
+    return api(`/admin/specializations${queryString ? `?${queryString}` : ''}`);
+  },
+  
+  create: async (name: string) => {
+    return api('/admin/specializations', {
+      method: 'POST',
+      body: JSON.stringify({ name })
+    });
+  },
+  
+  update: async (oldName: string, newName: string) => {
+    return api(`/admin/specializations/${encodeURIComponent(oldName)}`, {
+      method: 'PUT',
+      body: JSON.stringify({ new_name: newName })
+    });
+  },
+  
+  delete: async (name: string, action: 'clear' | 'delete_doctors' = 'clear') => {
+    return api(`/admin/specializations/${encodeURIComponent(name)}?action=${action}`, {
+      method: 'DELETE'
+    });
   }
 };
 

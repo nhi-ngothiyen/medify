@@ -9,7 +9,8 @@ export const ROUTES = {
     LOGIN: '/login',
     USERS: '/users',
     APPOINTMENTS: '/appointments',
-    DOCTORS: '/doctors'
+    DOCTORS: '/doctors',
+    SPECIALIZATIONS: '/specializations'
 };
 export const USER_ROLES = {
     ADMIN: 'admin',
