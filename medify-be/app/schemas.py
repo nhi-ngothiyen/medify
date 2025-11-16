@@ -212,3 +212,53 @@ class DashboardData(BaseModel):
     top_doctors: List[TopDoctor]
     recent_activities: List[RecentActivity]
     appointment_trends: List[AppointmentTrend]
+
+
+# ==================== Specialization Schemas ====================
+
+class SpecializationOut(BaseModel):
+    """Thông tin chuyên khoa"""
+    name: str
+    doctor_count: int
+    avg_rating: float
+
+
+class SpecializationCreate(BaseModel):
+    """Tạo chuyên khoa mới"""
+    name: str = Field(..., min_length=1, max_length=100)
+
+
+class SpecializationUpdate(BaseModel):
+    """Cập nhật tên chuyên khoa"""
+    new_name: str = Field(..., min_length=1, max_length=100)
+
+
+# ==================== Doctor Creation Schema ====================
+
+class DoctorCreate(BaseModel):
+    """Tạo bác sĩ mới"""
+    email: EmailStr
+    full_name: str
+    password: str = Field(..., min_length=8, max_length=16, description="8-16 ký tự")
+    gender: Optional[Gender] = None
+    specialty: str = Field(..., min_length=1, max_length=100)
+    years_exp: int = Field(default=0, ge=0)
+    bio: Optional[str] = None
+
+    @field_validator("password")
+    @classmethod
+    def validate_password_policy(cls, v: str) -> str:
+        """
+        Yêu cầu:
+        - 8-16 ký tự (Field đã ràng buộc)
+        - Ít nhất 1 chữ thường, 1 chữ hoa, 1 số, 1 ký tự đặc biệt
+        """
+        if not re.search(r"[a-z]", v):
+            raise ValueError("Mật khẩu phải có ít nhất 1 chữ thường")
+        if not re.search(r"[A-Z]", v):
+            raise ValueError("Mật khẩu phải có ít nhất 1 chữ hoa")
+        if not re.search(r"\d", v):
+            raise ValueError("Mật khẩu phải có ít nhất 1 chữ số")
+        if not re.search(r"[\W_]", v):
+            raise ValueError("Mật khẩu phải có ít nhất 1 ký tự đặc biệt")
+        return v
