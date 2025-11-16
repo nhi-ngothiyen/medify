@@ -425,6 +425,180 @@ const DoctorModal = memo(({ doctor, onClose }: DoctorModalProps) => {
 
 DoctorModal.displayName = 'DoctorModal';
 
+// Create Doctor Modal Component
+interface CreateDoctorModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onCreate: (data: any) => void;
+  specialties: string[];
+}
+
+const CreateDoctorModal = memo(({ isOpen, onClose, onCreate, specialties }: CreateDoctorModalProps) => {
+  const [formData, setFormData] = useState({
+    email: '',
+    full_name: '',
+    password: '',
+    gender: '' as '' | 'MALE' | 'FEMALE' | 'OTHER',
+    specialty: '',
+    years_exp: 0,
+    bio: ''
+  });
+
+  useEffect(() => {
+    if (isOpen) {
+      setFormData({
+        email: '',
+        full_name: '',
+        password: '',
+        gender: '',
+        specialty: '',
+        years_exp: 0,
+        bio: ''
+      });
+    }
+  }, [isOpen]);
+
+  if (!isOpen) return null;
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const submitData: any = {
+      email: formData.email,
+      full_name: formData.full_name,
+      password: formData.password,
+      specialty: formData.specialty,
+      years_exp: formData.years_exp
+    };
+    
+    if (formData.gender) submitData.gender = formData.gender;
+    if (formData.bio) submitData.bio = formData.bio;
+    
+    onCreate(submitData);
+  };
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-header">
+          <h3>Thêm bác sĩ mới</h3>
+          <button className="modal-close" onClick={onClose}>×</button>
+        </div>
+        <form onSubmit={handleSubmit} className="modal-body">
+          <div className="doctor-detail-grid">
+            <div className="detail-section">
+              <div className="detail-section-header">
+                <span className="detail-section-icon">👤</span>
+                <h4>Thông tin cá nhân</h4>
+              </div>
+              <div className="form-group">
+                <label>Email *</label>
+                <input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  className="form-input"
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>Họ và tên *</label>
+                <input
+                  type="text"
+                  value={formData.full_name}
+                  onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
+                  className="form-input"
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>Mật khẩu * (8-16 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt)</label>
+                <input
+                  type="password"
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  className="form-input"
+                  minLength={8}
+                  maxLength={16}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>Giới tính</label>
+                <select
+                  value={formData.gender}
+                  onChange={(e) => setFormData({ ...formData, gender: e.target.value as any })}
+                  className="form-input"
+                >
+                  <option value="">Chọn giới tính</option>
+                  <option value="MALE">Nam</option>
+                  <option value="FEMALE">Nữ</option>
+                  <option value="OTHER">Khác</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="detail-section">
+              <div className="detail-section-header">
+                <span className="detail-section-icon">🏥</span>
+                <h4>Thông tin chuyên môn</h4>
+              </div>
+              <div className="form-group">
+                <label>Chuyên khoa *</label>
+                <select
+                  value={formData.specialty}
+                  onChange={(e) => setFormData({ ...formData, specialty: e.target.value })}
+                  className="form-input"
+                  required
+                >
+                  <option value="">Chọn chuyên khoa</option>
+                  {specialties.map((spec) => (
+                    <option key={spec} value={spec}>{spec}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="form-group">
+                <label>Kinh nghiệm (năm) *</label>
+                <input
+                  type="number"
+                  value={formData.years_exp}
+                  onChange={(e) => setFormData({ ...formData, years_exp: parseInt(e.target.value) || 0 })}
+                  className="form-input"
+                  min="0"
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>Giới thiệu</label>
+                <textarea
+                  value={formData.bio}
+                  onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
+                  className="form-input"
+                  rows={4}
+                  placeholder="Nhập thông tin giới thiệu về bác sĩ..."
+                />
+              </div>
+            </div>
+          </div>
+          <div className="modal-footer">
+            <button type="button" onClick={onClose} className="btn-cancel">
+              Hủy
+            </button>
+            <button
+              type="submit"
+              className="btn-save"
+              disabled={!formData.email || !formData.full_name || !formData.password || !formData.specialty}
+            >
+              Tạo bác sĩ
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+});
+
+CreateDoctorModal.displayName = 'CreateDoctorModal';
+
 // Main Component
 export default function Doctors() {
   const [doctors, setDoctors] = useState<Doctor[]>([]);
@@ -437,6 +611,7 @@ export default function Doctors() {
   const [sort, setSort] = useState<SortState>({ field: 'name', order: 'asc' });
   const [currentPage, setCurrentPage] = useState(1);
   const [allSpecialties, setAllSpecialties] = useState<string[]>([]);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const hasInitialized = useRef(false);
 
   // Debounce search query
@@ -531,6 +706,18 @@ export default function Doctors() {
       alert('Không thể tải thông tin chi tiết bác sĩ');
     }
   }, []);
+
+  const handleCreateDoctor = useCallback(async (data: any) => {
+    try {
+      await doctorService.create(data);
+      setIsCreateModalOpen(false);
+      loadDoctors(specialtyFilter, debouncedSearchQuery, searchField, sort.field, sort.order);
+    } catch (e: any) {
+      const errorMessage = e instanceof Error ? e.message : 'Có lỗi xảy ra khi tạo bác sĩ';
+      alert(errorMessage);
+      console.error('Error creating doctor:', e);
+    }
+  }, [specialtyFilter, debouncedSearchQuery, searchField, sort.field, sort.order, loadDoctors]);
 
   const handleDelete = useCallback(
     async (doctorId: number, doctorName: string) => {
@@ -665,7 +852,7 @@ export default function Doctors() {
           </div>
           <button
             className="add-doctor-btn"
-            onClick={() => alert('Tính năng thêm bác sĩ sẽ được triển khai sau')}
+            onClick={() => setIsCreateModalOpen(true)}
           >
             + Add Doctor
           </button>
@@ -736,7 +923,14 @@ export default function Doctors() {
           onPageChange={handlePageChange}
         />
 
-        {/* Modal */}
+        {/* Modals */}
+        <CreateDoctorModal
+          isOpen={isCreateModalOpen}
+          onClose={() => setIsCreateModalOpen(false)}
+          onCreate={handleCreateDoctor}
+          specialties={allSpecialties}
+        />
+        
         <DoctorModal doctor={selectedDoctor} onClose={() => setSelectedDoctor(null)} />
       </div>
     </Layout>

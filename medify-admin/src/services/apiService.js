@@ -175,7 +175,46 @@ export const doctorService = {
     getById: async (id) => {
         return api(`/admin/doctors/${id}`);
     },
+    create: async (data) => {
+        return api('/admin/doctors', {
+            method: 'POST',
+            body: JSON.stringify(data)
+        });
+    },
     delete: async (id) => {
         return api(`/admin/doctors/${id}`, { method: 'DELETE' });
+    }
+};
+/**
+ * Specialization management API endpoints
+ */
+export const specializationService = {
+    getAll: async (params) => {
+        const queryParams = new URLSearchParams();
+        if (params?.search)
+            queryParams.append('search', params.search);
+        if (params?.sort_by)
+            queryParams.append('sort_by', params.sort_by);
+        if (params?.sort_order)
+            queryParams.append('sort_order', params.sort_order);
+        const queryString = queryParams.toString();
+        return api(`/admin/specializations${queryString ? `?${queryString}` : ''}`);
+    },
+    create: async (name) => {
+        return api('/admin/specializations', {
+            method: 'POST',
+            body: JSON.stringify({ name })
+        });
+    },
+    update: async (oldName, newName) => {
+        return api(`/admin/specializations/${encodeURIComponent(oldName)}`, {
+            method: 'PUT',
+            body: JSON.stringify({ new_name: newName })
+        });
+    },
+    delete: async (name, action = 'clear') => {
+        return api(`/admin/specializations/${encodeURIComponent(name)}?action=${action}`, {
+            method: 'DELETE'
+        });
     }
 };

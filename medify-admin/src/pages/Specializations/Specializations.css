@@ -1,90 +1,29 @@
-/* Doctors Page Styles - Medify Admin */
+/* Specializations Page Styles - Medify Admin */
 
-.doctors-container {
+.specializations-container {
   padding: 24px;
   background: #F7F8FC;
   min-height: 100vh;
 }
 
-.doctors-header {
+.specializations-header {
   margin-bottom: 24px;
 }
 
-.doctors-header h2 {
+.specializations-header h2 {
   font-size: 28px;
   font-weight: 700;
   color: #1A1A2E;
   margin: 0;
 }
 
-/* Specialization Filters */
-.specialty-filters {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
-}
-
-.specialty-filter-btn {
-  padding: 10px 20px;
-  border: 2px solid #E5E7EB;
-  border-radius: 8px;
-  background: white;
-  color: #6B7280;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.specialty-filter-btn:hover {
-  border-color: #5B7FFF;
-  color: #5B7FFF;
-}
-
-.specialty-filter-btn.active {
-  background: #5B7FFF;
-  color: white;
-  border-color: #5B7FFF;
-}
-
-/* Toolbar */
-.doctors-toolbar {
+.specializations-toolbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 24px;
   gap: 16px;
   flex-wrap: wrap;
-}
-
-.toolbar-left {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  flex: 1;
-}
-
-.search-field-dropdown {
-  padding: 10px 14px;
-  border: 1px solid #E5E7EB;
-  border-radius: 8px;
-  font-size: 14px;
-  color: #1A1A2E;
-  background: white;
-  cursor: pointer;
-  min-width: 120px;
-  transition: all 0.2s;
-}
-
-.search-field-dropdown:hover {
-  border-color: #5B7FFF;
-}
-
-.search-field-dropdown:focus {
-  outline: none;
-  border-color: #5B7FFF;
-  box-shadow: 0 0 0 3px rgba(91, 127, 255, 0.1);
 }
 
 .search-form {
@@ -148,7 +87,7 @@
   background: #F3F4F6;
 }
 
-.add-doctor-btn {
+.add-specialization-btn {
   padding: 10px 20px;
   background: #5B7FFF;
   color: white;
@@ -161,13 +100,12 @@
   white-space: nowrap;
 }
 
-.add-doctor-btn:hover {
+.add-specialization-btn:hover {
   background: #1a50e6;
   transform: translateY(-1px);
 }
 
-/* Table Wrapper */
-.doctors-table-wrapper {
+.specializations-table-wrapper {
   background: white;
   border-radius: 16px;
   overflow: hidden;
@@ -175,25 +113,25 @@
   overflow-x: auto;
 }
 
-.doctors-table {
+.specializations-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 1200px;
+  min-width: 800px;
 }
 
-.doctors-table thead {
+.specializations-table thead {
   background: #f8fafc;
   color: #475569;
 }
 
-.doctors-table th,
-.doctors-table td {
+.specializations-table th,
+.specializations-table td {
   padding: 18px 20px;
   text-align: left;
   border-bottom: 1px solid #eef1f6;
 }
 
-.doctors-table th {
+.specializations-table th {
   font-weight: 600;
   font-size: 15px;
   text-transform: uppercase;
@@ -201,13 +139,13 @@
   position: relative;
 }
 
-.doctors-table th.sortable {
+.specializations-table th.sortable {
   cursor: pointer;
   user-select: none;
   transition: background 0.2s;
 }
 
-.doctors-table th.sortable:hover {
+.specializations-table th.sortable:hover {
   background: #F1F5F9;
 }
 
@@ -217,79 +155,41 @@
   font-size: 12px;
 }
 
-.doctors-table td {
+.specializations-table tbody tr {
+  border-bottom: 1px solid #eef1f6;
+  transition: background 0.2s;
+}
+
+.specializations-table tbody tr:hover {
+  background: #f1f5ff;
+}
+
+.specializations-table td {
   font-size: 16px;
   color: #1f2937;
 }
 
-.doctors-table tbody tr:hover {
-  background: #f1f5ff;
-}
-
-/* Avatar */
-.avatar-cell {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.doctor-avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #5B7FFF 0%, #8B5CF6 100%);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  font-size: 16px;
-  flex-shrink: 0;
-}
-
-/* Doctor Name Link */
-.doctor-name-link {
-  background: none;
-  border: none;
-  color: #5B7FFF;
-  font-size: 16px;
+.spec-name {
   font-weight: 500;
-  cursor: pointer;
-  text-decoration: underline;
-  text-decoration-color: transparent;
-  transition: all 0.2s;
-  padding: 0;
+  font-size: 16px;
+  color: #1A1A2E;
 }
 
-.doctor-name-link:hover {
-  color: #1a50e6;
-  text-decoration-color: #1a50e6;
+.spec-count {
+  text-align: left;
 }
 
-/* Degree Badge */
-.degree-badge {
+.count-badge {
   display: inline-block;
-  padding: 6px 12px;
+  padding: 6px 14px;
   background: #E0F2FE;
   color: #0369A1;
   border-radius: 20px;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   white-space: nowrap;
 }
 
-/* Experience Cell */
-.experience-cell {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.calendar-icon {
-  font-size: 16px;
-}
-
-/* Rating Stars */
 .rating-stars {
   display: flex;
   align-items: center;
@@ -321,20 +221,38 @@
   color: #6B7280;
 }
 
-/* Delete Button */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.edit-btn,
 .delete-btn {
   padding: 8px 16px;
-  background: #EF4444;
-  color: white;
   border: none;
   border-radius: 8px;
+  cursor: pointer;
   font-size: 14px;
   font-weight: 500;
-  cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
   gap: 6px;
+}
+
+.edit-btn {
+  background: #F59E0B;
+  color: white;
+}
+
+.edit-btn:hover {
+  background: #D97706;
+  transform: translateY(-1px);
+}
+
+.delete-btn {
+  background: #EF4444;
+  color: white;
 }
 
 .delete-btn:hover {
@@ -342,7 +260,6 @@
   transform: translateY(-1px);
 }
 
-/* No Data */
 .no-data {
   text-align: center;
   padding: 40px;
@@ -350,9 +267,8 @@
   font-size: 16px;
 }
 
-/* Loading & Error States */
-.doctors-loading,
-.doctors-error {
+.specializations-loading,
+.specializations-error {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -374,7 +290,7 @@
   to { transform: rotate(360deg); }
 }
 
-.doctors-loading p {
+.specializations-loading p {
   color: #6B7280;
   font-size: 16px;
 }
@@ -402,7 +318,6 @@
   transform: translateY(-2px);
 }
 
-/* Loading Overlay */
 .loading-overlay {
   position: relative;
   min-height: 200px;
@@ -415,61 +330,6 @@
 .loading-overlay .spinner {
   width: 32px;
   height: 32px;
-}
-
-/* Pagination */
-.pagination {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 8px;
-  margin-top: 24px;
-  flex-wrap: wrap;
-}
-
-.pagination-btn {
-  min-width: 40px;
-  height: 40px;
-  padding: 0 12px;
-  border: 1px solid #E5E7EB;
-  border-radius: 8px;
-  background: white;
-  color: #6B7280;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.pagination-btn:hover:not(:disabled) {
-  border-color: #5B7FFF;
-  color: #5B7FFF;
-  background: #F1F5FF;
-}
-
-.pagination-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.pagination-btn.active {
-  background: #5B7FFF;
-  color: white;
-  border-color: #5B7FFF;
-}
-
-.pagination-ellipsis {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 40px;
-  height: 40px;
-  color: #6B7280;
-  font-size: 14px;
-  font-weight: 500;
 }
 
 /* Modal Styles */
@@ -500,7 +360,7 @@
   background: white;
   border-radius: 16px;
   width: 90%;
-  max-width: 900px;
+  max-width: 600px;
   max-height: 85vh;
   overflow: hidden;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
@@ -560,135 +420,8 @@
   overflow-y: auto;
 }
 
-/* Doctor Detail Grid */
-.doctor-detail-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-}
-
-.detail-section {
-  background: #F9FAFB;
-  border-radius: 12px;
-  padding: 20px;
-  border: 1px solid #E5E7EB;
-}
-
-.detail-section.full-width {
-  grid-column: 1 / -1;
-}
-
-.detail-section-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 16px;
-  padding-bottom: 12px;
-  border-bottom: 2px solid #5B7FFF;
-}
-
-.detail-section-icon {
-  font-size: 24px;
-}
-
-.detail-section-header h4 {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 600;
-  color: #5B7FFF;
-}
-
-.detail-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.detail-table tbody tr {
-  border-bottom: 1px solid #E5E7EB;
-}
-
-.detail-table tbody tr:last-child {
-  border-bottom: none;
-}
-
-.detail-table td {
-  padding: 12px 0;
-  vertical-align: top;
-}
-
-.detail-label {
-  font-size: 14px;
-  color: #6B7280;
-  font-weight: 500;
-  width: 40%;
-}
-
-.detail-value {
-  font-size: 14px;
-  color: #1A1A2E;
-  font-weight: 600;
-}
-
-.status-badge {
-  display: inline-block;
-  padding: 6px 14px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.status-badge.active {
-  background: #d1fae5;
-  color: #047857;
-}
-
-.status-badge.inactive {
-  background: #fee2e2;
-  color: #b91c1c;
-}
-
-.rating-display {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.bio-text {
-  font-size: 14px;
-  color: #1A1A2E;
-  line-height: 1.6;
-  margin: 0;
-}
-
-.availability-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.availability-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px;
-  background: white;
-  border-radius: 8px;
-  border: 1px solid #E5E7EB;
-}
-
-.availability-day {
-  font-weight: 600;
-  color: #1A1A2E;
-}
-
-.availability-time {
-  color: #6B7280;
-  font-size: 14px;
-}
-
-/* Form Styles */
 .form-group {
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .form-group label {
@@ -721,15 +454,6 @@
   background: #F9FAFB;
   color: #9CA3AF;
   cursor: not-allowed;
-}
-
-textarea.form-input {
-  resize: vertical;
-  font-family: inherit;
-}
-
-select.form-input {
-  cursor: pointer;
 }
 
 .modal-footer {
@@ -778,49 +502,36 @@ select.form-input {
 }
 
 /* Responsive Design */
-@media (max-width: 1024px) {
-  .doctor-detail-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
 @media (max-width: 768px) {
-  .doctors-container {
+  .specializations-container {
     padding: 16px;
   }
 
-  .doctors-table {
+  .specializations-table {
     font-size: 12px;
-    min-width: 1000px;
+    min-width: 700px;
   }
 
-  .doctors-table th,
-  .doctors-table td {
+  .specializations-table th,
+  .specializations-table td {
     padding: 12px;
   }
 
-  .doctors-toolbar {
+  .specializations-toolbar {
     flex-direction: column;
     align-items: stretch;
-  }
-
-  .toolbar-left {
-    flex-direction: column;
   }
 
   .search-form {
     max-width: 100%;
   }
 
-  .add-doctor-btn {
-    width: 100%;
-  }
-
-  .specialty-filters {
+  .action-buttons {
     flex-direction: column;
   }
 
-  .specialty-filter-btn {
+  .edit-btn,
+  .delete-btn {
     width: 100%;
   }
 
@@ -829,4 +540,3 @@ select.form-input {
     max-height: 90vh;
   }
 }
-

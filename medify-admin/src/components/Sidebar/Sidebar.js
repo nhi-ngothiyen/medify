@@ -7,7 +7,8 @@ const sidebarLinks = [
     { id: 'dashboard', label: 'Dashboard', path: ROUTES.DASHBOARD, icon: '📊' },
     { id: 'appointments', label: 'Appointments', path: ROUTES.APPOINTMENTS, icon: '📅' },
     { id: 'doctors', label: 'Doctor Management', path: ROUTES.DOCTORS, icon: '👨‍⚕️' },
-    { id: 'users', label: 'Quản lý người dùng', path: ROUTES.USERS, icon: '👥' },
+    { id: 'specializations', label: 'Specializations Management', path: ROUTES.SPECIALIZATIONS, icon: '🏥' },
+    { id: 'users', label: 'Users Management', path: ROUTES.USERS, icon: '👥' },
 ];
 export default function Sidebar() {
     const location = useLocation();
