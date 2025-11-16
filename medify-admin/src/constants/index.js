@@ -8,7 +8,8 @@ export const ROUTES = {
     DASHBOARD: '/dashboard',
     LOGIN: '/login',
     USERS: '/users',
-    APPOINTMENTS: '/appointments'
+    APPOINTMENTS: '/appointments',
+    DOCTORS: '/doctors'
 };
 export const USER_ROLES = {
     ADMIN: 'admin',
@@ -18,4 +19,29 @@ export const USER_ROLES = {
 export const STORAGE_KEYS = {
     AUTH_TOKEN: 'token',
     USER_DATA: 'user_data'
+};
+// Search field labels
+export const SEARCH_FIELD_LABELS = {
+    ALL: 'All',
+    NAME: 'Name',
+    EMAIL: 'Email',
+    SPECIALTY: 'Specialty'
+};
+// Table header labels
+export const TABLE_HEADER_LABELS = {
+    NAME: 'Name',
+    EMAIL: 'Email',
+    SPECIALIZATION: 'Specialization',
+    DEGREE: 'Degree',
+    EXPERIENCE: 'Experience',
+    RATING: 'Rating',
+    ACTION: 'Action',
+    AVATAR: 'Avatar'
+};
+// Search placeholders
+export const SEARCH_PLACEHOLDERS = {
+    ALL: 'Search by name, email, or specialty',
+    NAME: 'Search by name',
+    EMAIL: 'Search by email',
+    SPECIALTY: 'Search by specialty'
 };

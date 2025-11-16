@@ -12,6 +12,7 @@ interface PrivateRouteProps {
 }
 
 export default function PrivateRoute({ children }: PrivateRouteProps) {
+  // Check authentication synchronously (localStorage is synchronous)
   const token = localStorage.getItem(STORAGE_KEYS.AUTH_TOKEN);
   
   if (!token) {

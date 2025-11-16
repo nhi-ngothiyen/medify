@@ -138,3 +138,37 @@ export interface AppointmentDetail extends Appointment {
   payment?: Payment;
 }
 
+// ==================== Doctor Types ====================
+
+export interface Doctor {
+  id: number;
+  email: string;
+  full_name: string;
+  gender?: 'MALE' | 'FEMALE' | 'OTHER';
+  specialty: string;
+  years_exp: number;
+  avg_rating: number;
+  bio?: string;
+  is_active: boolean;
+}
+
+export interface DoctorDetail {
+  user: {
+    id: number;
+    email: string;
+    full_name: string;
+    gender?: 'MALE' | 'FEMALE' | 'OTHER';
+    role: string;
+    is_active: boolean;
+  };
+  profile_specialty: string;
+  years_exp: number;
+  bio?: string;
+  avg_rating: number;
+  availabilities: Array<{
+    weekday: number;
+    start_time: string;
+    end_time: string;
+  }>;
+}
+

@@ -13,6 +13,7 @@ interface SidebarLink {
 const sidebarLinks: SidebarLink[] = [
   { id: 'dashboard', label: 'Dashboard', path: ROUTES.DASHBOARD, icon: '📊' },
   { id: 'appointments', label: 'Appointments', path: ROUTES.APPOINTMENTS, icon: '📅' },
+  { id: 'doctors', label: 'Doctor Management', path: ROUTES.DOCTORS, icon: '👨‍⚕️' },
   { id: 'users', label: 'Quản lý người dùng', path: ROUTES.USERS, icon: '👥' },
 ];
 

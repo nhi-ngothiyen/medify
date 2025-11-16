@@ -1,7 +1,7 @@
 /* Appointments Page Styles - Medify Admin */
 
 .appointments-container {
-  padding: 24px;
+  padding: 20px;
   background: #F7F8FC;
   min-height: 100vh;
 }
@@ -10,7 +10,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
+  gap: 0;
+  flex-wrap: wrap;
 }
 
 .appointments-header h2 {
@@ -18,40 +20,49 @@
   font-weight: 700;
   color: #1A1A2E;
   margin: 0;
+  margin-right: 80px;
+  flex-shrink: 0;
+  line-height: 1.2;
 }
 
 /* Filters */
 .appointments-filters {
   display: flex;
-  gap: 16px;
-  margin-bottom: 24px;
+  gap: 12px;
   flex-wrap: wrap;
-  justify-content: flex-end;
+  align-items: flex-end;
+  flex-shrink: 0;
+  margin-left: auto;
+  min-width: fit-content;
 }
 
 .filter-group {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
+  width: 160px;
 }
 
 .filter-group label {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   color: #6B7280;
+  white-space: nowrap;
 }
 
 .filter-select,
 .filter-input {
-  padding: 10px 14px;
+  padding: 8px 12px;
   border: 1px solid #E5E7EB;
   border-radius: 8px;
   font-size: 14px;
   color: #1A1A2E;
   background: white;
-  min-width: 200px;
+  width: 100%;
   cursor: pointer;
   transition: all 0.2s;
+  height: 38px;
+  box-sizing: border-box;
 }
 
 .filter-select:hover,
@@ -69,10 +80,11 @@
 /* Table Wrapper */
 .appointments-table-wrapper {
   background: white;
-  border-radius: 16px;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
   overflow-x: auto;
+  margin-top: 0;
 }
 
 .appointments-table {
@@ -88,7 +100,7 @@
 
 .appointments-table th,
 .appointments-table td {
-  padding: 18px 20px;
+  padding: 14px 16px;
   text-align: left;
   border-bottom: 1px solid #eef1f6;
 }
@@ -494,6 +506,30 @@
     padding: 16px;
   }
 
+  .appointments-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .appointments-header h2 {
+    font-size: 24px;
+  }
+
+  .appointments-filters {
+    width: 100%;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 8px;
+  }
+
+  .filter-group {
+    flex: 1;
+    min-width: 120px;
+    width: auto;
+  }
+
   .appointments-table {
     font-size: 12px;
     min-width: 1000px;
@@ -502,10 +538,6 @@
   .appointments-table th,
   .appointments-table td {
     padding: 12px;
-  }
-
-  .appointments-filters {
-    flex-direction: column;
   }
 
   .filter-select,
