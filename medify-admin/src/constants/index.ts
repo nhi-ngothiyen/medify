@@ -12,7 +12,18 @@ export const ROUTES = {
   USERS: '/users',
   APPOINTMENTS: '/appointments',
   DOCTORS: '/doctors',
-  SPECIALIZATIONS: '/specializations'
+  SPECIALIZATIONS: '/specializations',
+  AVAILABILITIES: '/availabilities'
+} as const;
+
+export const WEEKDAY_NAMES = {
+  0: 'Chủ nhật',
+  1: 'Thứ 2',
+  2: 'Thứ 3',
+  3: 'Thứ 4',
+  4: 'Thứ 5',
+  5: 'Thứ 6',
+  6: 'Thứ 7'
 } as const;
 
 export const USER_ROLES = {

@@ -230,6 +230,55 @@ export const doctorService = {
 };
 
 /**
+ * Availability management API endpoints
+ */
+export const availabilityService = {
+  getAll: async (params?: {
+    doctor_id?: number;
+    weekday?: number;
+  }) => {
+    const queryParams = new URLSearchParams();
+    if (params?.doctor_id) queryParams.append('doctor_id', params.doctor_id.toString());
+    if (params?.weekday !== undefined) queryParams.append('weekday', params.weekday.toString());
+    
+    const queryString = queryParams.toString();
+    return api(`/admin/availabilities${queryString ? `?${queryString}` : ''}`);
+  },
+  
+  getByDoctor: async (doctorUserId: number) => {
+    return api(`/admin/doctors/${doctorUserId}/availabilities`);
+  },
+  
+  create: async (doctorUserId: number, data: {
+    weekday: number;
+    start_time: string;
+    end_time: string;
+  }) => {
+    return api(`/admin/doctors/${doctorUserId}/availabilities`, {
+      method: 'POST',
+      body: JSON.stringify(data)
+    });
+  },
+  
+  update: async (availabilityId: number, data: {
+    weekday?: number;
+    start_time?: string;
+    end_time?: string;
+  }) => {
+    return api(`/admin/availabilities/${availabilityId}`, {
+      method: 'PUT',
+      body: JSON.stringify(data)
+    });
+  },
+  
+  delete: async (availabilityId: number) => {
+    return api(`/admin/availabilities/${availabilityId}`, {
+      method: 'DELETE'
+    });
+  }
+};
+
+/**
  * Specialization management API endpoints
  */
 export const specializationService = {
