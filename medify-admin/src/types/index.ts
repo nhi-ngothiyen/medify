@@ -180,3 +180,15 @@ export interface Specialization {
   avg_rating: number;
 }
 
+// ==================== Availability Types ====================
+
+export interface Availability {
+  id: number;
+  doctor_id: number;
+  weekday: number;
+  start_time: string;
+  end_time: string;
+  doctor_name?: string;
+  doctor_specialty?: string;
+}
+

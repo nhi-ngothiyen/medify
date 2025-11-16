@@ -432,3 +432,175 @@ def delete_specialization(
         return {
             "message": f"Đã xóa chuyên khoa '{name}' khỏi {len(doctors)} bác sĩ"
         }
+
+
+# ==================== Availability Management ====================
+
+# 🧩 Lấy tất cả lịch làm việc của tất cả bác sĩ
+@router.get("/availabilities", response_model=List[schemas.AvailabilityDetail])
+def list_all_availabilities(
+    doctor_id: Optional[int] = None,
+    weekday: Optional[int] = None,
+    db: Session = Depends(get_db),
+    _: dict = Depends(require_role(Role.admin))
+):
+    qry = db.query(models.Availability).join(
+        models.DoctorProfile,
+        models.Availability.doctor_id == models.DoctorProfile.id
+    ).join(
+        models.User,
+        models.DoctorProfile.user_id == models.User.id
+    )
+    
+    if doctor_id:
+        qry = qry.filter(models.DoctorProfile.user_id == doctor_id)
+    
+    if weekday is not None:
+        qry = qry.filter(models.Availability.weekday == weekday)
+    
+    qry = qry.order_by(models.Availability.weekday, models.Availability.start_time)
+    
+    results = []
+    for avail in qry.all():
+        doctor_profile = avail.doctor
+        user = doctor_profile.user
+        results.append(
+            schemas.AvailabilityDetail(
+                id=avail.id,
+                doctor_id=avail.doctor_id,
+                weekday=avail.weekday,
+                start_time=avail.start_time,
+                end_time=avail.end_time,
+                doctor_name=user.full_name,
+                doctor_specialty=doctor_profile.specialty
+            )
+        )
+    
+    return results
+
+
+# 🧩 Lấy lịch làm việc của một bác sĩ
+@router.get("/doctors/{doctor_user_id}/availabilities", response_model=List[schemas.AvailabilityOut])
+def get_doctor_availabilities(
+    doctor_user_id: int,
+    db: Session = Depends(get_db),
+    _: dict = Depends(require_role(Role.admin))
+):
+    doctor_profile = db.query(models.DoctorProfile).filter(
+        models.DoctorProfile.user_id == doctor_user_id
+    ).first()
+    
+    if not doctor_profile:
+        raise HTTPException(status_code=404, detail="Bác sĩ không tồn tại")
+    
+    availabilities = db.query(models.Availability).filter(
+        models.Availability.doctor_id == doctor_profile.id
+    ).order_by(models.Availability.weekday, models.Availability.start_time).all()
+    
+    return [
+        schemas.AvailabilityOut(
+            weekday=a.weekday,
+            start_time=a.start_time,
+            end_time=a.end_time
+        )
+        for a in availabilities
+    ]
+
+
+# 🧩 Tạo lịch làm việc mới cho bác sĩ
+@router.post("/doctors/{doctor_user_id}/availabilities", response_model=schemas.AvailabilityOut)
+def create_availability(
+    doctor_user_id: int,
+    data: schemas.AvailabilityCreate,
+    db: Session = Depends(get_db),
+    _: dict = Depends(require_role(Role.admin))
+):
+    doctor_profile = db.query(models.DoctorProfile).filter(
+        models.DoctorProfile.user_id == doctor_user_id
+    ).first()
+    
+    if not doctor_profile:
+        raise HTTPException(status_code=404, detail="Bác sĩ không tồn tại")
+    
+    # Check for overlapping availability
+    existing = db.query(models.Availability).filter(
+        models.Availability.doctor_id == doctor_profile.id,
+        models.Availability.weekday == data.weekday
+    ).all()
+    
+    for avail in existing:
+        if not (data.end_time <= avail.start_time or data.start_time >= avail.end_time):
+            raise HTTPException(
+                status_code=400,
+                detail=f"Lịch làm việc bị trùng với {avail.start_time}-{avail.end_time}"
+            )
+    
+    new_availability = models.Availability(
+        doctor_id=doctor_profile.id,
+        weekday=data.weekday,
+        start_time=data.start_time,
+        end_time=data.end_time
+    )
+    
+    db.add(new_availability)
+    db.commit()
+    db.refresh(new_availability)
+    
+    return schemas.AvailabilityOut(
+        weekday=new_availability.weekday,
+        start_time=new_availability.start_time,
+        end_time=new_availability.end_time
+    )
+
+
+# 🧩 Cập nhật lịch làm việc
+@router.put("/availabilities/{availability_id}", response_model=schemas.AvailabilityOut)
+def update_availability(
+    availability_id: int,
+    data: schemas.AvailabilityUpdate,
+    db: Session = Depends(get_db),
+    _: dict = Depends(require_role(Role.admin))
+):
+    availability = db.query(models.Availability).filter(
+        models.Availability.id == availability_id
+    ).first()
+    
+    if not availability:
+        raise HTTPException(status_code=404, detail="Lịch làm việc không tồn tại")
+    
+    # Update fields if provided
+    if data.weekday is not None:
+        availability.weekday = data.weekday
+    if data.start_time is not None:
+        availability.start_time = data.start_time
+    if data.end_time is not None:
+        availability.end_time = data.end_time
+    
+    db.commit()
+    db.refresh(availability)
+    
+    return schemas.AvailabilityOut(
+        weekday=availability.weekday,
+        start_time=availability.start_time,
+        end_time=availability.end_time
+    )
+
+
+# 🧩 Xóa lịch làm việc
+@router.delete("/availabilities/{availability_id}")
+def delete_availability(
+    availability_id: int,
+    db: Session = Depends(get_db),
+    _: dict = Depends(require_role(Role.admin))
+):
+    availability = db.query(models.Availability).filter(
+        models.Availability.id == availability_id
+    ).first()
+    
+    if not availability:
+        raise HTTPException(status_code=404, detail="Lịch làm việc không tồn tại")
+    
+    db.delete(availability)
+    db.commit()
+    
+    return {"message": "Đã xóa lịch làm việc thành công"}

@@ -5,6 +5,7 @@ import Users from './pages/Users';
 import Appointments from './pages/Appointments';
 import Doctors from './pages/Doctors';
 import Specializations from './pages/Specializations';
+import Availabilities from './pages/Availabilities';
 import Login from './pages/Login';
 import PrivateRoute from './components/PrivateRoute';
 import ErrorBoundary from './components/ErrorBoundary';
@@ -64,6 +65,14 @@ export default function App() {
             element={
               <PrivateRoute>
                 <Specializations />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path={ROUTES.AVAILABILITIES}
+            element={
+              <PrivateRoute>
+                <Availabilities />
               </PrivateRoute>
             }
           />

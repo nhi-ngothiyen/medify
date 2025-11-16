@@ -262,3 +262,32 @@ class DoctorCreate(BaseModel):
         if not re.search(r"[\W_]", v):
             raise ValueError("Mật khẩu phải có ít nhất 1 ký tự đặc biệt")
         return v
+
+
+# ==================== Availability Schemas ====================
+
+class AvailabilityCreate(BaseModel):
+    """Tạo lịch làm việc mới"""
+    weekday: int = Field(..., ge=0, le=6, description="0=Chủ nhật, 6=Thứ 7")
+    start_time: str = Field(..., pattern=r"^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$", description="HH:MM format")
+    end_time: str = Field(..., pattern=r"^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$", description="HH:MM format")
+
+
+class AvailabilityUpdate(BaseModel):
+    """Cập nhật lịch làm việc"""
+    weekday: Optional[int] = Field(None, ge=0, le=6)
+    start_time: Optional[str] = Field(None, pattern=r"^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$")
+    end_time: Optional[str] = Field(None, pattern=r"^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$")
+
+
+class AvailabilityDetail(BaseModel):
+    """Chi tiết lịch làm việc với thông tin bác sĩ"""
+    model_config = ConfigDict(from_attributes=True)
+    
+    id: int
+    doctor_id: int
+    weekday: int
+    start_time: str
+    end_time: str
+    doctor_name: Optional[str] = None
+    doctor_specialty: Optional[str] = None
