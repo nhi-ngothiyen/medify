@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session, joinedload
 
@@ -37,29 +37,137 @@ def delete_user(user_id: int, db: Session = Depends(get_db), _: dict = Depends(r
     return {"message": "User deleted successfully"}
 
 
-# 🧩 Lấy danh sách tất cả bác sĩ
-@router.get("/doctors", response_model=List[schemas.DoctorCard])
-def list_doctors(db: Session = Depends(get_db), _: dict = Depends(require_role(Role.admin))):
+# 🧩 Lấy danh sách tất cả bác sĩ với filter, search, sort
+@router.get("/doctors", response_model=List[schemas.DoctorManagementOut])
+def list_doctors(
+    specialty: Optional[str] = None,
+    search: Optional[str] = None,
+    search_field: Optional[str] = None,  # "name", "email", "specialty", "all"
+    sort_by: Optional[str] = None,  # "name", "experience", "rating", "specialty"
+    sort_order: Optional[str] = "asc",  # "asc" or "desc"
+    db: Session = Depends(get_db),
+    _: dict = Depends(require_role(Role.admin))
+):
     qry = (
         db.query(models.User, models.DoctorProfile)
         .join(models.DoctorProfile, models.DoctorProfile.user_id == models.User.id)
         .filter(models.User.role == Role.doctor)
     )
 
+    # Filter by specialty
+    if specialty and specialty != "all":
+        qry = qry.filter(models.DoctorProfile.specialty.ilike(f"%{specialty}%"))
+
+    # Search by different fields
+    if search:
+        search_term = f"%{search}%"
+        if search_field == "name":
+            qry = qry.filter(models.User.full_name.ilike(search_term))
+        elif search_field == "email":
+            qry = qry.filter(models.User.email.ilike(search_term))
+        elif search_field == "specialty":
+            qry = qry.filter(models.DoctorProfile.specialty.ilike(search_term))
+        else:  # "all" or None - search in all fields
+            qry = qry.filter(
+                models.User.full_name.ilike(search_term)
+                | models.User.email.ilike(search_term)
+                | models.DoctorProfile.specialty.ilike(search_term)
+            )
+
+    # Sort
+    if sort_by == "name":
+        if sort_order == "desc":
+            qry = qry.order_by(models.User.full_name.desc())
+        else:
+            qry = qry.order_by(models.User.full_name.asc())
+    elif sort_by == "experience":
+        if sort_order == "desc":
+            qry = qry.order_by(models.DoctorProfile.years_exp.desc())
+        else:
+            qry = qry.order_by(models.DoctorProfile.years_exp.asc())
+    elif sort_by == "rating":
+        if sort_order == "desc":
+            qry = qry.order_by(models.DoctorProfile.avg_rating.desc())
+        else:
+            qry = qry.order_by(models.DoctorProfile.avg_rating.asc())
+    elif sort_by == "specialty":
+        if sort_order == "desc":
+            qry = qry.order_by(models.DoctorProfile.specialty.desc())
+        else:
+            qry = qry.order_by(models.DoctorProfile.specialty.asc())
+    else:
+        # Default sort by name
+        qry = qry.order_by(models.User.full_name.asc())
+
     items = []
     for u, p in qry.all():
         items.append(
-            schemas.DoctorCard(
+            schemas.DoctorManagementOut(
                 id=u.id,
+                email=u.email,
                 full_name=u.full_name,
-                specialty=p.specialty,
-                years_exp=p.years_exp,
-                avg_rating=p.avg_rating,
                 gender=u.gender,
+                specialty=p.specialty or "",
+                years_exp=p.years_exp or 0,
+                avg_rating=p.avg_rating or 0.0,
+                bio=p.bio,
+                is_active=u.is_active,
             )
         )
 
     return items
+
+
+# 🧩 Xem chi tiết bác sĩ
+@router.get("/doctors/{doctor_id}", response_model=schemas.DoctorDetail)
+def get_doctor_detail(
+    doctor_id: int,
+    db: Session = Depends(get_db),
+    _: dict = Depends(require_role(Role.admin))
+):
+    u = (
+        db.query(models.User)
+        .filter_by(id=doctor_id, role=Role.doctor)
+        .first()
+    )
+
+    if not u or not u.doctor_profile:
+        raise HTTPException(status_code=404, detail="Doctor not found")
+
+    p = u.doctor_profile
+    avs = [
+        schemas.AvailabilityOut(
+            weekday=a.weekday,
+            start_time=a.start_time,
+            end_time=a.end_time,
+        )
+        for a in p.availabilities
+    ]
+
+    return schemas.DoctorDetail(
+        user=u,
+        profile_specialty=p.specialty,
+        years_exp=p.years_exp,
+        bio=p.bio,
+        avg_rating=p.avg_rating,
+        availabilities=avs,
+    )
+
+
+# 🧩 Xóa bác sĩ
+@router.delete("/doctors/{doctor_id}")
+def delete_doctor(
+    doctor_id: int,
+    db: Session = Depends(get_db),
+    _: dict = Depends(require_role(Role.admin))
+):
+    user = db.query(models.User).filter(models.User.id == doctor_id, models.User.role == Role.doctor).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Doctor not found")
+
+    db.delete(user)
+    db.commit()
+    return {"message": "Doctor deleted successfully"}
 
 
 # 🧩 Xem tất cả các cuộc hẹn

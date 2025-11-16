@@ -183,3 +183,34 @@ export const appointmentService = {
   }
 };
 
+/**
+ * Doctor management API endpoints
+ */
+export const doctorService = {
+  getAll: async (params?: {
+    specialty?: string;
+    search?: string;
+    search_field?: string;
+    sort_by?: string;
+    sort_order?: string;
+  }) => {
+    const queryParams = new URLSearchParams();
+    if (params?.specialty) queryParams.append('specialty', params.specialty);
+    if (params?.search) queryParams.append('search', params.search);
+    if (params?.search_field) queryParams.append('search_field', params.search_field);
+    if (params?.sort_by) queryParams.append('sort_by', params.sort_by);
+    if (params?.sort_order) queryParams.append('sort_order', params.sort_order);
+    
+    const queryString = queryParams.toString();
+    return api(`/admin/doctors${queryString ? `?${queryString}` : ''}`);
+  },
+  
+  getById: async (id: number) => {
+    return api(`/admin/doctors/${id}`);
+  },
+  
+  delete: async (id: number) => {
+    return api(`/admin/doctors/${id}`, { method: 'DELETE' });
+  }
+};
+

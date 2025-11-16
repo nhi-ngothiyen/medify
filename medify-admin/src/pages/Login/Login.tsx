@@ -1,14 +1,24 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Login.css';
 import logo from '../../assets/logo.png';
 import { authService } from '../../services/apiService';
 import { ROUTES, STORAGE_KEYS } from '../../constants';
 
 export default function Login() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('admin@medify.vn');
   const [password, setPassword] = useState('Admin@123');
   const [err, setErr] = useState<string | undefined>();
   const [loading, setLoading] = useState(false);
+
+  // Redirect if already logged in
+  useEffect(() => {
+    const token = localStorage.getItem(STORAGE_KEYS.AUTH_TOKEN);
+    if (token) {
+      navigate(ROUTES.HOME, { replace: true });
+    }
+  }, [navigate]);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,8 +46,8 @@ export default function Login() {
       }
       
       console.log('🔄 Đang chuyển hướng...');
-      // Redirect to home
-      window.location.href = ROUTES.HOME;
+      // Redirect to home using React Router
+      navigate(ROUTES.HOME, { replace: true });
     } catch (e: any) {
       console.error('❌ Login error:', e);
       console.error('Error details:', {
@@ -58,7 +68,16 @@ export default function Login() {
       <div className="login-card">
         {/* Logo Section */}
         <div className="logo-section">
-          <img src={logo} alt="Medify Logo" className="login-logo" />
+          <img 
+            src={logo} 
+            alt="Medify Logo" 
+            className="login-logo"
+            onError={(e) => {
+              // Fallback if logo fails to load
+              const target = e.target as HTMLImageElement;
+              target.style.display = 'none';
+            }}
+          />
         </div>
         
         <div className="welcome-section">

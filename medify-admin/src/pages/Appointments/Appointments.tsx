@@ -332,35 +332,34 @@ export default function Appointments() {
   return (
     <Layout>
       <div className="appointments-container">
+        {/* Header with Filters in one row */}
         <div className="appointments-header">
           <h2>Appointments</h2>
-        </div>
-
-        {/* Filters */}
-        <div className="appointments-filters">
-          <div className="filter-group">
-            <label htmlFor="status-filter">Filter by status</label>
-            <select
-              id="status-filter"
-              className="filter-select"
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-            >
-              <option value="all">All Status</option>
-              <option value="BOOKED">booked</option>
-              <option value="CANCELED">canceled</option>
-              <option value="DONE">done</option>
-            </select>
-          </div>
-          <div className="filter-group">
-            <label htmlFor="date-filter">Filter by date</label>
-            <input
-              id="date-filter"
-              type="date"
-              className="filter-input"
-              value={dateFilter}
-              onChange={(e) => setDateFilter(e.target.value)}
-            />
+          <div className="appointments-filters">
+            <div className="filter-group">
+              <label htmlFor="status-filter">Filter by status</label>
+              <select
+                id="status-filter"
+                className="filter-select"
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+              >
+                <option value="all">All Status</option>
+                <option value="BOOKED">booked</option>
+                <option value="CANCELED">canceled</option>
+                <option value="DONE">done</option>
+              </select>
+            </div>
+            <div className="filter-group">
+              <label htmlFor="date-filter">Filter by date</label>
+              <input
+                id="date-filter"
+                type="date"
+                className="filter-input"
+                value={dateFilter}
+                onChange={(e) => setDateFilter(e.target.value)}
+              />
+            </div>
           </div>
         </div>
 

@@ -81,6 +81,21 @@ class DoctorCard(BaseModel):
     gender: Optional[Gender]
 
 
+class DoctorManagementOut(BaseModel):
+    """Doctor information for admin management page"""
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int  # user id
+    email: str
+    full_name: str
+    gender: Optional[Gender]
+    specialty: str
+    years_exp: int
+    avg_rating: float
+    bio: Optional[str] = None
+    is_active: bool
+
+
 class AvailabilityOut(BaseModel):
     weekday: int  # 0..6 (tùy bạn quy ước)
     start_time: str  # "08:00"
